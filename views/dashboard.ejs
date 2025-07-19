@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HR Dashboard - HireMap</title>
+  <link rel="stylesheet" href="/styles/dashboard.css">
+</head>
+<body>
+
+  <h1>HireMap – HR Dashboard</h1>
+
+  <!-- Filter Form -->
+  <div class="filter-form">
+    <form id="filter-form">
+      <label for="role-filter">Filter by Role:</label>
+      <select id="role-filter" name="role">
+        <option value="">All</option>
+        <option value="SoftwareEngineer">Software Engineer</option>
+        <option value="DataAnalyst">Data Analyst</option>
+        <option value="CloudEngineer">Cloud Engineer</option>
+        <option value="CyberSecurity">Cyber Security</option>
+        <option value="ProductManager">Product Manager</option>
+        <option value="UXUIDesigner">UX/UI Designer</option>
+        <option value="TechnicalSupportEngineer">Technical Support Engineer</option>
+        <option value="DevOpsEngineer">DevOps Engineer</option>
+        <option value="AIMLEngineer">AI/ML Engineer</option>
+        <option value="BusinessAnalyst">Business Analyst</option>
+      </select>
+
+      <label for="date-filter">Filter by Date:</label>
+      <input type="date" id="date-filter" name="date" />
+
+      <button type="submit">Apply Filters</button>
+    </form>
+  </div>
+
+  <!-- Copy Emails Button -->
+  <button id="copy-emails-btn">Copy Selected Emails</button>
+
+  <!-- Applicants Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Role</th>
+          <th>Resume</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% applicants.forEach((applicant, index) => { %>
+          <tr>
+            <td><input type="checkbox" class="select-row" data-email="<%= applicant.email %>"></td>
+            <td><%= index + 1 %></td>
+            <td><%= applicant.name %></td>
+            <td><%= applicant.email %></td>
+            <td><%= applicant.phone %></td>
+            <td><%= applicant.address %></td>
+            <td><%= applicant.role %></td>
+            <td><a href="/uploads/<%= applicant.resume %>" target="_blank" class="view-link">Download</a></td>
+
+            <td><%= new Date(applicant.submitted_at).toLocaleString() %></td>
+            <td><button class="delete-btn" data-id="<%= applicant.id %>">Delete</button></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyEmailsBtn = document.getElementById('copy-emails-btn');
+      const filterForm = document.getElementById('filter-form');
+
+      // Copy Emails
+      copyEmailsBtn.addEventListener('click', () => {
+        const selectedEmails = [];
+        document.querySelectorAll('.select-row:checked').forEach((checkbox) => {
+          selectedEmails.push(checkbox.getAttribute('data-email'));
+        });
+        if (selectedEmails.length > 0) {
+          const emailText = selectedEmails.join('\n');
+          navigator.clipboard.writeText(emailText)
+            .then(() => alert('Emails copied to clipboard!'))
+            .catch((err) => alert('Error copying emails: ' + err));
+        } else {
+          alert('No applicants selected!');
+        }
+      });
+
+      // Attach delete button listeners
+      function attachDeleteListeners() {
+        document.querySelectorAll('.delete-btn').forEach((button) => {
+        button.addEventListener('click', (e) => {
+        const applicantId = e.target.getAttribute('data-id');
+        fetch(`/hr/delete-applicant/${applicantId}`, {
+
+        method: 'DELETE',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        alert(data.message);
+        e.target.closest('tr').remove();
+      })
+      .catch((err) => alert('Error deleting applicant: ' + err));
+  });
+});
+
+      }
+
+      attachDeleteListeners(); // initial call
+
+      // Filter form submit
+      filterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const role = document.getElementById('role-filter').value;
+        const date = document.getElementById('date-filter').value;
+        
+        const queryParams = new URLSearchParams();
+        if (role) queryParams.append('role', role);
+        if (date) queryParams.append('date', date);
+
+        fetch(`/hr/filter-applicants?${queryParams.toString()}`)
+          .then((response) => response.json())
+          .then((data) => {
+            const tableBody = document.querySelector('tbody');
+            tableBody.innerHTML = '';
+            data.applicants.forEach((applicant, index) => {
+              const row = `
+                <tr>
+                  <td><input type="checkbox" class="select-row" data-email="${applicant.email}"></td>
+                  <td>${index + 1}</td>
+                  <td>${applicant.name}</td>
+                  <td>${applicant.email}</td>
+                  <td>${applicant.phone}</td>
+                  <td>${applicant.address}</td>
+                  <td>${applicant.role}</td>
+                  <td><a href="/uploads/${applicant.resume}" download class="download-link">Download</a></td>
+                  <td>${new Date(applicant.submitted_at).toLocaleString()}</td>
+                  <td><button class="delete-btn" data-id="${applicant.id}">Delete</button></td>
+                </tr>
+              `;
+              tableBody.insertAdjacentHTML('beforeend', row);
+            });
+
+            attachDeleteListeners(); // Re-attach after table refresh
+          })
+          .catch((err) => alert('Error fetching filtered applicants: ' + err));
+      });
+    });
+  </script>
+
+</body>
+</html>

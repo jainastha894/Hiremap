@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<%- include('header.ejs') %>
+
+  <div id="content">
+
+         <%  if(data){ %>
+            <%- data %>
+
+            <%  } else{ %>
+            
+              
+                <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <div id="welcome">
+                        <h2>Welcome <br> to HireMap</h2>
+                        <p>Expert Knowledge</p>
+                      </div>
+                    </div>
+                    <div id="second" class="carousel-item">
+                      <img src="carousel.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                    <div id="third">
+                      <h2>What Goes into a Perfect Recruitment Process?</h2>
+                      <p>An efficient recruitment process is an organization-specific sourcing model that aims to find the right fit for the right job at the right time. It is a step-by-step approach to bringing in talented people who can help the company grow. An all-inclusive recruitment process has 5 key phases but it may vary from company to company depending on the business vertical, organizational structure, size of the company, nature of operations, existing recruitment workflow and selection process.</p>
+                    
+                    </div>
+                      </div>
+                    <div class="carousel-item">
+                      <div id="fourth">
+                        <h2 class="quote" >Bringing out the potential in you</h2>
+                   
+                      </div>
+                       </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+
+
+              
+            <% } %>
+  </div>
+        <div id="roles">
+          <h2>Roles</h2>
+   
+          <div class="role-row">
+            <button class="role-btn" onclick="window.location.href='/SoftwareEngineer'">Software Engineer</button>
+            <button class="role-btn" onclick="window.location.href='/DataAnalyst'">Data Analyst</button>
+            <button class="role-btn" onclick="window.location.href='/CloudEngineer'">Cloud Engineer</button>
+            <button class="role-btn" onclick="window.location.href='/CyberSecurity'">Cyber Security</button>
+            <button class="role-btn" onclick="window.location.href='/ProductManager'">Product Manager</button>
+            
+          </div>
+          <div class="role-row">
+            <button class="role-btn" onclick="window.location.href='/UX/UIDesigner'">UX/UI Designer</button>
+            <button class="role-btn" onclick="window.location.href='/TechnicalSupportEngineer'">Technical Support <br> Engineer</button>
+            <button class="role-btn" onclick="window.location.href='/DevOpsEngineer'">DevOps <br>Engineer</button>
+            <button class="role-btn" onclick="window.location.href='/AI/MLEngineer'">AI/ML Engineer</button>
+            <button class="role-btn" onclick="window.location.href='/BusinessAnalyst'">Business Analyst</button>
+
+          </div>
+        </div>
+
+ 
+
+        <div id="add1">
+          <h1>STILL <br> DREAMING FOR ABC.ltd?</h1>
+          <img src="/quesMark.png" alt="">
+        </div>
+        <footer>
+          <div class="footer-container">
+            <div class="footer-section about">
+              <h2>About Us</h2>
+              <p>Empowering careers with seamless hiring solutions.</p>
+            </div>
+            
+           
+        
+            <div class="footer-section contact">
+              <h2>Contact Us</h2>
+              <p>Email: <a href="/jainastha894@gmail.com">jainastha894@gmail.com</a></p>
+              <p>Phone: +1 234 567 890</p>
+              <div class="social-icons">
+               
+                <a href="https://www.linkedin.com/in/astha-jain-4363a0286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fa fa-linkedin"></i></a>
+                <a href="https://www.instagram.com/_aastha.06/"><i class="fa fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="footer-bottom">
+            <p>&copy; 2025 HireMap | All rights reserved.</p>
+          </div>
+        </footer>
+        
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html> 
+
+
+<script>
+  const toggleBtn = document.getElementById('menuToggle');
+  const sideMenu = document.getElementById('roleMenu');
+  const contentArea = document.querySelector('.content');
+
+  toggleBtn.addEventListener('click', () => {
+    sideMenu.classList.toggle('hidden');
+    document.body.classList.toggle('menu-closed');
+  });
+
+  const buttons = document.body.getElementsByClassName("role-btn");
+
+for (let btn of buttons) {
+  btn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+</script>
+

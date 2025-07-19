@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<style>
+   #pages {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  width: 30%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+#pages button {
+  background-color: white;
+  color: #1a252f;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#pages button:hover {
+  background-color: #cbd5e1;
+  transform: scale(1.05);
+} 
+    header{
+    padding-top: 40px;
+    padding-bottom: 40px;
+        background: linear-gradient(to right, #2c3e50 60%,#e9e7d0 40%);
+    }
+
+    header>h1{
+    
+    margin-left: 150px;
+        margin-top: 20px;
+        color: #e0e1dd;
+        font-family:'Times New Roman', Times, serif;
+        font-size:50px;
+    }
+    header>h5{
+    
+        color: #e0e1dd;
+        font-family:'Times New Roman', Times, serif;
+        font-style:normal;
+        font-size: 13px;
+        font:caption;
+        margin-left: 150px;
+    
+        
+       
+    }
+    </style>
+<body>
+    
+
+<header>
+    <h1>  HireMap  </h1>
+    <h5> YOUR CAREER, MAPPED OUT!</h5>
+
+    <div id="pages">
+      <button onclick="window.location.href='/'">Home</button>
+      <button onclick="window.location.href='/about'">About us</button>
+      <button onclick="window.location.href='/form'">Apply here</button>
+     </div>
+     
+  </header>
+</body>
+
+</html>
+
+

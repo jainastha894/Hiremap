@@ -1,0 +1,105 @@
+#main{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #2c3e50 60%,#e9e7d0 40%);
+    padding: 40px;
+  }
+
+  #main h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    background-color: #ccc;
+    width: 60%;
+    margin-left: 270px;
+  }
+
+  #main form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  #main label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea,
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  select {
+    background-color: #f9f9f9;
+  }
+  .checkbox-group {
+margin-top: 20px;
+padding: 20px;
+background-color: #f9f9f9;
+border: 1px solid #ddd;
+border-radius: 10px;
+}
+
+.checkbox-group .checkbox-item {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 12px;
+}
+
+.checkbox-group input[type="checkbox"] {
+accent-color: #4CAF50;
+width: 18px;
+height: 18px;
+margin: 0;
+cursor: pointer;
+}
+
+.checkbox-group label {
+font-size: 14px;
+color: #333;
+cursor: pointer;
+margin: 0;
+}
+
+  #main button {
+    display: block;
+    width: 100%;
+    margin-top: 25px;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #main button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  #main button:hover:not(:disabled) {
+    background-color: #45a049;
+  }
