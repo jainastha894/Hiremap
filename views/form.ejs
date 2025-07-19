@@ -1,0 +1,156 @@
+<!-- views/form.ejs -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+<link rel="stylesheet" href="/styles/form.css">
+ </head>
+
+<body>
+  <%- include('header.ejs') %>
+
+<div id="main">
+<h1>Resume Submission Form</h1>
+<form action="/submit-resume" method="POST" enctype="multipart/form-data">
+  <label for="name">Full Name:</label><br>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" required><br><br>
+
+  <label for="phone">Contact:</label>
+  <input type="tel" id="phone" name="phone" required>
+
+  <label for="address">Address: </label>
+  <textarea name="address" id="address" rows="4" cols="50"></textarea>
+
+  <select name="role" id="roleSelect" required>
+    <option value="">-- Select Role --</option>
+    <option value="SoftwareEngineer">Software Engineer</option>
+    <option value="DataAnalyst">Data Analyst</option>
+    <option value="CloudEngineer">Cloud Engineer</option>
+    <option value="CyberSecurity">Cyber Security</option>
+    <option value="ProductManager">Product Manager</option>
+    <option value="UXUIDesigner">UX/UI Designer</option>
+    <option value="TechnicalSupportEngineer">Technical Support Engineer</option>
+    <option value="DevOpsEngineer">DevOps Engineer</option>
+    <option value="AIMLEngineer">AI/ML Engineer</option>
+    <option value="BusinessAnalyst">Business Analyst</option>
+  </select>
+  <br><br>
+
+  <div id="eligibilityCheckboxes" class="checkbox-group"></div>
+
+  <label for="resume">Upload Resume (PDF/DOC):</label><br>
+  <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required><br><br>
+
+  <button type="submit" id="submitBtn" disabled>Submit</button>
+
+</form>
+</div>
+<script>
+  const roleSelect = document.getElementById('roleSelect');
+  const eligibilityDiv = document.getElementById('eligibilityCheckboxes');
+  const submitBtn = document.getElementById('submitBtn');
+
+  const eligibilityMap = {
+    SoftwareEngineer: [
+      "Must know at least one programming language",
+      "Familiar with data structures and algorithms",
+      "Basic understanding of software development lifecycle"
+    ],
+    DataAnalyst: [
+      "Knowledge of Excel or Google Sheets",
+      "Basic SQL understanding",
+      "Understanding of data visualization tools"
+    ],
+    CloudEngineer: [
+      "Familiarity with AWS, Azure or GCP",
+      "Basic knowledge of networking",
+      "Experience with cloud-based deployments"
+    ],
+    CyberSecurity: [
+      "Understanding of network security",
+      "Awareness of common threats and vulnerabilities",
+      "Basic knowledge of encryption and firewalls"
+    ],
+    ProductManager: [
+      "Good communication skills",
+      "Basic knowledge of agile methodology",
+      "Understanding of product lifecycle"
+    ],
+    UXUIDesigner: [
+      "Familiarity with tools like Figma or Adobe XD",
+      "Understanding of user-centered design",
+      "Creative and detail-oriented"
+    ],
+    TechnicalSupportEngineer: [
+      "Good troubleshooting skills",
+      "Basic knowledge of computer hardware/software",
+      "Strong communication ability"
+    ],
+    DevOpsEngineer: [
+      "Understanding of CI/CD pipelines",
+      "Basic scripting knowledge",
+      "Familiarity with Docker or Jenkins"
+    ],
+    AIMLEngineer: [
+      "Basic understanding of machine learning",
+      "Experience with Python or R",
+      "Familiarity with ML frameworks like TensorFlow or Scikit-learn"
+    ],
+    BusinessAnalyst: [
+      "Strong analytical skills",
+      "Familiar with business tools like Excel or Power BI",
+      "Basic knowledge of business processes"
+    ]
+  };
+
+  roleSelect.addEventListener('change', () => {
+    const selectedRole = roleSelect.value;
+    eligibilityDiv.innerHTML = '';
+    submitBtn.disabled = true;
+    var message;
+
+    if (eligibilityMap[selectedRole]) {
+      const checklist = eligibilityMap[selectedRole];
+
+      checklist.forEach((item, index) => {
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `check${index}`;
+        checkbox.classList.add('eligibilityCheck');
+
+        const label = document.createElement('label');
+        label.htmlFor = `check${index}`;
+        label.textContent = item;
+
+        const br = document.createElement('br');
+
+        eligibilityDiv.appendChild(checkbox);
+        eligibilityDiv.appendChild(label);
+        eligibilityDiv.appendChild(br);
+      });
+
+      eligibilityDiv.classList.add('show');
+    } else {
+      eligibilityDiv.classList.remove('show');
+    }
+
+    checkAllBoxes(); // Reset state on change
+  });
+
+  eligibilityDiv.addEventListener('change', checkAllBoxes);
+
+  function checkAllBoxes() {
+    const checkboxes = document.querySelectorAll('.eligibilityCheck');
+    const allChecked = [...checkboxes].every(box => box.checked);
+    submitBtn.disabled = !allChecked;
+   
+  }
+
+</script>
+</body>
+ </html>
