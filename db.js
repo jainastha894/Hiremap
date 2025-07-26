@@ -1,9 +1,10 @@
 // db.js
-import pg from "pg";
+import pkg from "pg";
 import env from "dotenv";
 env.config();
+const {Pool}=pkg;
 
-const db = new pg.Client({
+const db = new Pool({
 
   user: process.env.USER,
   host: process.env.HOST,
@@ -12,11 +13,6 @@ const db = new pg.Client({
   port: process.env.PORT,
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to MySQL');
-});
-
 
 // Export db properly
-export { db }; // Export the db object
+export default db; // Export the db object

@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import passport from "./passportConfig.js";
 import pkg from "passport-local";
 import GoogleStrategy from "passport-google-oauth2"; //import googlestrategy
-import { db } from './db.js';
+import db from './db.js';
 
 const router = express.Router();
 const LocalStrategy = pkg.Strategy;

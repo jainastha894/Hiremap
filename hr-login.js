@@ -1,5 +1,5 @@
 import express from 'express';
-import { db } from './db.js'; // import your DB connection
+import db from './db.js'; // import your DB connection
 import fs from 'fs';
 import path from 'path';
 import passport from "./passportConfig.js";
