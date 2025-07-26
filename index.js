@@ -18,7 +18,7 @@ const info = JSON.parse(data);
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const port = 5000;
+const port = process.env.port || 5000;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
