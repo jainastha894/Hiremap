@@ -1,6 +1,6 @@
 // routes/resumeRoute.js
 import express from 'express';
-import {db} from './db.js'; // Make sure the path is correct
+import db from './db.js'; // Make sure the path is correct
 
 import upload from "./multerConfig.js"; // import multer config for file upload
 
