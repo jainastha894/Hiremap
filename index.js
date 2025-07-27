@@ -2,8 +2,9 @@
 import express from "express";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import path from "path"; // ✅ Already imported correctly here
-// import bodyParser from "body-parser";
+import path from "path"; 
+import connectPgSimple from "connect-pg-simple";
+import db from "./db.js";
 import resumeRoute from "./resumeRoute.js";
 import loginRouter from "./hr-login.js";
 import { readFile } from 'fs/promises';
@@ -15,7 +16,7 @@ import loginSignup from "./login-signup.js";
 const data = await readFile('./info.json', 'utf-8');
 const info = JSON.parse(data);
 
-
+const pgSession=connectPgSimple(session);
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.port || 5000;
@@ -25,9 +26,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(session({
-  secret: "topsecret",
+  store: new pgSession({
+    pool: db,            
+    tableName: "session" 
+  }),
+  secret: process.env.sessionsecret,    
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+  }
 }));
 
 app.use(passport.initialize());
