@@ -11,6 +11,9 @@ const db = new Pool({
   database: process.env.DATABASE,
   password: process.env.PASSWORD,
   port: process.env.DBPORT,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 
