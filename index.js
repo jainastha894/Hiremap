@@ -11,6 +11,9 @@ import { readFile } from 'fs/promises';
 import passport from "./passportConfig.js";
 import session from "express-session";
 import loginSignup from "./login-signup.js";
+import env from "dotenv";
+
+env.config();
 
 
 const data = await readFile('./info.json', 'utf-8');
