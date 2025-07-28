@@ -84,7 +84,7 @@ router.post("/CRegister", async (req, res) => {
 passport.use("google", new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:5000/auth/google/form",
+    callbackURL: "http://hiremap.onrender.com/auth/google/form",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
 }, async (accessToken, refreshToken, profile, cb) => {
     try{
