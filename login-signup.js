@@ -1,6 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
-import pg, { Result } from "pg";
 import bcrypt from "bcrypt";
 import passport from "./passportConfig.js";
 import pkg from "passport-local";
