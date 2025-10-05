@@ -64,7 +64,7 @@
             <td><%= applicant.phone %></td>
             <td><%= applicant.address %></td>
             <td><%= applicant.role %></td>
-            <td><a href="/uploads/<%= applicant.resume %>" target="_blank" class="view-link">Download</a></td>
+            <td><a id="<%= applicant.resume %>" href="" target="_blank" class="uniqueA view-link">View</a></td>
 
             <td><%= new Date(applicant.submitted_at).toLocaleString() %></td>
             <td><button class="delete-btn" data-id="<%= applicant.id %>">Delete</button></td>
@@ -75,6 +75,38 @@
   </div>
 
   <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const links = document.getElementsByClassName("uniqueA");
+
+  // Loop through all links
+  Array.from(links).forEach(link => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault(); // stop default navigation
+
+      const key = link.id; // S3 key stored in id
+      try {
+        const response = await fetch('/getresume?key=' + encodeURIComponent(key));
+        if (!response.ok) {
+          console.error("Failed to get presigned URL for key:", key);
+          return;
+        }
+
+        const data = await response.json();
+        const url = data.url;
+
+        if (url) {
+          window.open(url, '_blank'); // open presigned URL
+        } else {
+          console.error("No URL returned for key:", key);
+        }
+      } catch (err) {
+        console.error("Error fetching presigned URL:", err);
+      }
+    });
+  });
+});
+
+    
     document.addEventListener('DOMContentLoaded', () => {
       const copyEmailsBtn = document.getElementById('copy-emails-btn');
       const filterForm = document.getElementById('filter-form');

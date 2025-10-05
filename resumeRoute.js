@@ -2,9 +2,9 @@
 import express from 'express';
 import db from './db.js'; // Make sure the path is correct
 
-import upload from "./multerConfig.js"; // import multer config for file upload
-
 const router = express.Router();
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
 function toInitialCase(str) {
   return str
@@ -14,11 +14,10 @@ function toInitialCase(str) {
     .join(' ');
 }
 
-router.post('/submit-resume', upload.single('resume'),(req, res) => {
-  let { name, email, role, phone, address } = req.body;
-const resume = req.file.filename;
-console.log("req.body: ", req.body);
-console.log("req.body.id",req.body.id);
+router.post('/submit-resume',(req, res) => {
+  console.log("req.body: ", req.body);
+  let { name, email, phone, address, role, resume } = req.body;
+
 console.log("req.user?.id", req.user?.id);
 const userId= req.user?.id;
 

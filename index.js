@@ -11,6 +11,7 @@ import { readFile } from 'fs/promises';
 import passport from "./passportConfig.js";
 import session from "express-session";
 import loginSignup from "./login-signup.js";
+import {generatePresignedUrl, uploadFile, deleteFile , listObjects} from "./s3functions.js";
 
 
 
@@ -107,6 +108,46 @@ app.get("/about", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("hr-login.ejs");
 });
+
+app.get("/delete", async(req, res) => {
+  const filename=req.query.filename;
+  const key=`resume/${filename}`;
+  await deleteFile("hiremapresume",key);
+});
+
+app.get("/upload",async(req,res)=>{
+  if(req.isAuthenticated()){
+    console.log("entered into upload route");
+    const filename=req.query.filename;
+    const key=`resume/${filename}-${Date.now()}`;
+
+    const url=await uploadFile(key);
+    console.log("Presigned URL generated:", url);
+    res.json({key,url});
+  }
+  else{
+    res.status(401).json({error:"Unauthorized"});
+  }
+});
+
+app.get("/getresume",async(req,res)=>{
+  if(req.isAuthenticated()){
+    const key=req.query.key;
+    // console.log("key received in getresume route:",key);
+    const result = await generatePresignedUrl(key); // returns an array like [{ key, url }]
+    const { key: keybygeneratePresignedUrl, url } = result[0];
+    // console.log("keybygeneratePresignedUrl,url:",keybygeneratePresignedUrl,url);
+    res.json({keybygeneratePresignedUrl,url});
+  }
+});
+
+app.get("/records", async(req, res) => {
+  if (req.isAuthenticated()) {
+    const folders=await listObjects();
+    console.log(`objects: ${folders.objects}, totalObjects: ${folders.totalObjects}, totalSize: ${folders.totalSize}`);
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

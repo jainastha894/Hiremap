@@ -21,7 +21,7 @@ router.get("/dashboard", async (req, res) => {
   console.log("entered into dashboard block");
   if (req.isAuthenticated()) {
     console.log("req.isauthenticated() block");
-    const sql = 'SELECT * FROM applicants';
+    const sql = 'SELECT * FROM applicants order by submitted_at DESC';
     const results = await db.query(sql);
 
     res.render("dashboard.ejs", { applicants: results.rows });

@@ -13,7 +13,6 @@ passport.deserializeUser(async (user, cb) => {
     }
     else{
     try {
-        console.log("deserialize user for candidate");
         const result = await db.query("SELECT * FROM users WHERE id = $1", [user.id]);
         cb(null, result.rows[0]);
     } catch (err) {
