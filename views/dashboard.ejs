@@ -26,10 +26,6 @@
         <option value="AIMLEngineer">AI/ML Engineer</option>
         <option value="BusinessAnalyst">Business Analyst</option>
       </select>
-
-      <!-- <label for="date-filter">Filter by Date:</label>
-      <input type="date" id="date-filter" name="date" /> -->
-
       <button type="submit">Apply Filters</button>
     </form>
   </div>
@@ -130,21 +126,19 @@ document.addEventListener("DOMContentLoaded", () => {
       // Attach delete button listeners
       function attachDeleteListeners() {
         document.querySelectorAll('.delete-btn').forEach((button) => {
-        button.addEventListener('click', (e) => {
-        const applicantId = e.target.getAttribute('data-id');
-        fetch(`/hr/delete-applicant/${applicantId}`, {
-
-        method: 'DELETE',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert(data.message);
-        e.target.closest('tr').remove();
-      })
-      .catch((err) => alert('Error deleting applicant: ' + err));
-  });
-});
-
+          button.addEventListener('click', (e) => {
+            const applicantId = e.target.getAttribute('data-id');
+            fetch(`/hr/delete-applicant/${applicantId}`, {
+              method: 'DELETE',
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                alert(data.message);
+                e.target.closest('tr').remove();
+              })
+              .catch((err) => alert('Error deleting applicant: ' + err));
+          });
+        });
       }
 
       attachDeleteListeners(); // initial call
@@ -153,11 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
       filterForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const role = document.getElementById('role-filter').value;
-        const date = document.getElementById('date-filter').value;
-        
         const queryParams = new URLSearchParams();
         if (role) queryParams.append('role', role);
-        if (date) queryParams.append('date', date);
 
         fetch(`/hr/filter-applicants?${queryParams.toString()}`)
           .then((response) => response.json())
