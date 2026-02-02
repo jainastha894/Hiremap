@@ -1,144 +1,1257 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/styles/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!doctype html>
+<html lang="en" class="h-full">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .carousel-track,
+    .stats-carousel-track {
+      animation: scroll 30s linear infinite;
+    }
+
+    .carousel-track:hover,
+    .stats-carousel-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .benefit-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.3);
+    }
+
+    .benefit-category-content {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .role-card {
+      transition: all 0.3s;
+      border-left: 3px solid transparent;
+    }
+
+    .role-card:hover {
+      transform: translateX(4px);
+      box-shadow: 0 8px 30px -5px rgba(30, 64, 175, 0.15);
+      border-left-color: #3b82f6;
+      background: #fafbfc;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.3;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      33% {
+        transform: translate(50px, -50px) scale(1.15);
+      }
+
+      66% {
+        transform: translate(-30px, 30px) scale(0.85);
+      }
+    }
+
+    .pulse-dot {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.2);
+      }
+    }
+
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+
+      .carousel-track,
+      .stats-carousel-track {
+        animation: scroll 20s linear infinite;
+      }
+    }
+
+    #content {
+
+      background-color: #f8f4f8;
+      /*heading content!!!!!*/
+      align-content: center;
+      align-items: center;
+      margin-right: 10%;
+
+    }
+
+    #content {
+      padding: 30px;
+      background-color: #fcfdfc;
+      /* very light greenish white */
+      border-left: 2px solid #c8e6c9;
+      height: 100%;
+      overflow-y: auto;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(76, 175, 80, 0.06);
+      /* subtle green glow */
+      color: #2e2e2e;
+      margin-left: 160px;
+    }
+
+    /* Headings */
+    #content h1,
+    #content h2,
+    #content h3,
+    #content h4 {
+      margin-top: 20px;
+      color: #2e5939;
+      /* deep leafy green */
+    }
+
+    #content h1 {
+      font-size: 2rem;
+      border-bottom: 2px solid #a5d6a7;
+      padding-bottom: 10px;
+      margin-bottom: 25px;
+    }
+
+    #content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    #content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    #content h4 {
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: #446b4c;
+    }
+
+    /* Paragraphs and Text */
+    #content p {
+      line-height: 1.7;
+      color: #444;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+
+    /* Lists */
+    #content ol,
+    #content ul {
+      margin-left: 25px;
+      color: #444;
+      padding-left: 10px;
+    }
+
+    #content li {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    #content ol[type="a"] {
+      list-style-type: lower-alpha;
+    }
+
+    #content ol[type="1"] {
+      list-style-type: decimal;
+    }
+
+    #content ul li {
+      list-style-type: disc;
+    }
+
+    /* Links */
+    #content a {
+      color: #ff0000;
+      /* forest green */
+      text-decoration: underline;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    #content a:hover {
+      color: #2e7d32;
+      text-decoration: none;
+    }
+
+    /* Highlight Boxes */
+    #content .highlight {
+      background-color: #e8f5e9;
+      padding: 12px 16px;
+      border-left: 4px solid #81c784;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+
+    /* styling second page  */
+    #second {
+      min-width: min-content;
+      margin: none;
+    }
+
+    #third {
+      background-color: #a7c9eb;
+      min-height: 450px;
+    }
+
+    #third>p {
+      width: 80%;
+      margin-left: 100px;
+      background-color: rgb(206, 241, 243);
+      margin-top: 10px;
+      text-align: center;
+
+    }
+
+    #third>h2 {
+      margin-top: 100px;
+      text-align: center;
+      margin-left: 200px;
+    }
+
+    /* styling third page  */
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #fourth {
+      background-color: rgb(204, 237, 250);
+      /* White background */
+      height: 400px;
+      /* Adjust height */
+      display: flex;
+      justify-content: center;
+      /* Centers content horizontally */
+      align-items: center;
+      /* Centers content vertically */
+      text-align: center;
+      /* Aligns text centrally */
+      padding: 20px;
+      color: #222;
+      /* Darker gray for better contrast */
+      font-size: 30px;
+      /* Slightly bigger font */
+      font-weight: bold;
+      /* Makes text bold */
+      font-family: 'Georgia', serif;
+      /* Elegant serif font */
+      border-radius: 10px;
+      /* Rounded corners */
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+      /* Enhanced shadow */
+      position: relative;
+      animation: fadeIn 1.5s ease-in-out;
+      /* Smooth fade-in effect */
+    }
+
+    .quote {
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+      quotes: "“" "”" "‘" "’";
+    }
+
+    .quote::before {
+      content: open-quote;
+    }
+
+    .quote::after {
+      content: close-quote;
+    }
+
+
+
+    #third h2 {
+      position: relative;
+      padding: 15px 25px;
+      display: inline-block;
+      font-style: italic;
+      /* Quote style */
+      font-weight: bold;
+      /* Extra bold for emphasis */
+    }
+
+    #third h2::before,
+    #third h2::after {
+      content: '“';
+      /* Opening quote */
+      font-size: 50px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    #third h2::after {
+      content: '”';
+      /* Closing quote */
+    }
+
+    /* styling add1  */
+
+    #add1 {
+      display: flex;
+      flex-direction: row;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      height: 400px;
+
+      background-color: white;
+
+    }
+
+    .carousel-control-next-icon,
+    .carousel-control-prev-icon {
+      color: red;
+      z-index: 100;
+    }
+
+    #content {
+      flex: 1;
+      /* Makes it take available space */
+      position: relative;
+      /* Ensures proper placement */
+      height: 500px;
+      /* Set a fixed height as per your design */
+      overflow-y: auto;
+      /* Enables vertical scrolling */
+      overflow-x: hidden;
+      /* Prevents horizontal scrolling */
+      padding: 20px;
+      background-color: #f8f9fa;
+      /* Light background for clarity */
+      border-radius: 10px;
+      /* Optional: For rounded edges */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      /* Optional: For a subtle shadow effect */
+    }
+  </style>
+  <style>
+    @view-transition {
+      navigation: auto;
+    }
+  </style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
 </head>
 
-<body>
-<%- include('header.ejs') %>
-
-  <div id="content">
-
-         <%  if(data){ %>
-            <%- data %>
-
-            <%  } else{ %>
-            
-              
-                <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <div id="welcome">
-                        <h2>Welcome <br> to HireMap</h2>
-                        <p>Expert Knowledge</p>
-                      </div>
-                    </div>
-                    <div id="second" class="carousel-item">
-                      <img src="carousel.png" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                    <div id="third">
-                      <h2>What Goes into a Perfect Recruitment Process?</h2>
-                      <p>An efficient recruitment process is an organization-specific sourcing model that aims to find the right fit for the right job at the right time. It is a step-by-step approach to bringing in talented people who can help the company grow. An all-inclusive recruitment process has 5 key phases but it may vary from company to company depending on the business vertical, organizational structure, size of the company, nature of operations, existing recruitment workflow and selection process.</p>
-                    
-                    </div>
-                      </div>
-                    <div class="carousel-item">
-                      <div id="fourth">
-                        <h2 class="quote" >Bringing out the potential in you</h2>
-                   
-                      </div>
-                       </div>
-                  </div>
-                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                </div>
-
-
-              
-            <% } %>
-  </div>
-        <div id="roles">
-          <h2>Roles</h2>
-   
-          <div class="role-row">
-            <button class="role-btn" onclick="window.location.href='/SoftwareEngineer'">Software Engineer</button>
-            <button class="role-btn" onclick="window.location.href='/DataAnalyst'">Data Analyst</button>
-            <button class="role-btn" onclick="window.location.href='/CloudEngineer'">Cloud Engineer</button>
-            <button class="role-btn" onclick="window.location.href='/CyberSecurity'">Cyber Security</button>
-            <button class="role-btn" onclick="window.location.href='/ProductManager'">Product Manager</button>
-            
+<body class="h-full bg-slate-50 overflow-auto">
+  <div id="app-wrapper" class="w-full min-h-full relative"><!-- Background -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div class="blob w-96 h-96 bg-indigo-400 top-0 -left-48"></div>
+      <div class="blob w-80 h-80 bg-purple-400 top-1/3 right-0" style="animation-delay: 2s;"></div>
+      <div class="blob w-72 h-72 bg-fuchsia-400 bottom-0 left-1/3" style="animation-delay: 4s;"></div>
+    </div><!-- Nav -->
+    <nav class="relative z-50 px-4 sm:px-6 lg:px-8 py-4 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div><span id="nav-company-name" class="text-xl font-bold text-slate-900">Nexus Tech</span>
+        </div>
+        <div class="hidden md:flex gap-8"><a href="#roles"
+            class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Open Roles</a> <a href="#benefits"
+            class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Benefits</a> <a href="#culture"
+            class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Culture</a>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero -->
+    <section
+      class="relative z-10 px-4 sm:px-6 lg:px-8 pt-16 pb-24 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 font-medium text-sm mb-6 border border-blue-200">
+            <span class="w-2 h-2 bg-blue-600 pulse-dot"></span> Currently Hiring for 9 Positions
           </div>
-          <div class="role-row">
-            <button class="role-btn" onclick="window.location.href='/UX/UIDesigner'">UX/UI Designer</button>
-            <button class="role-btn" onclick="window.location.href='/TechnicalSupportEngineer'">Technical Support <br> Engineer</button>
-            <button class="role-btn" onclick="window.location.href='/DevOpsEngineer'">DevOps <br>Engineer</button>
-            <button class="role-btn" onclick="window.location.href='/AI/MLEngineer'">AI/ML Engineer</button>
-            <button class="role-btn" onclick="window.location.href='/BusinessAnalyst'">Business Analyst</button>
-
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">Launch Your
+            Career at<br><span id="hero-company-name" class="gradient-text">Nexus Tech</span></h1>
+          <p id="hero-tagline" class="text-lg text-slate-600 mb-10 leading-relaxed max-w-xl">Join a team of innovators
+            shaping tomorrow's technology. Discover opportunities that match your passion and expertise.</p>
+          <div class="flex flex-col sm:flex-row gap-4"><a href="#roles"
+              class="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-700 transition-all">
+              Explore Open Roles
+              <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg></a> <a href="#benefits"
+              class="inline-flex items-center justify-center px-8 py-4 bg-white text-slate-700 font-semibold shadow-lg hover:shadow-xl transition-all border border-slate-300">
+              See Benefits </a>
           </div>
         </div>
-
- 
-
-        <div id="add1">
-          <h1>STILL <br> DREAMING FOR ABC.ltd?</h1>
-          <img src="/quesMark.png" alt="">
-        </div>
-        <footer>
-          <div class="footer-container">
-            <div class="footer-section about">
-              <h2>About Us</h2>
-              <p>Empowering careers with seamless hiring solutions.</p>
+        <div class="hidden lg:grid grid-cols-2 gap-4">
+          <div class="stat-card bg-white p-6 shadow-lg border border-slate-200">
+            <div class="text-4xl font-bold text-blue-600 mb-2">
+              150+
             </div>
-            
-           
-        
-            <div class="footer-section contact">
-              <h2>Contact Us</h2>
-              <p>Email: <a href="/jainastha894@gmail.com">jainastha894@gmail.com</a></p>
-              <p>Phone: +1 234 567 890</p>
-              <div class="social-icons">
-               
-                <a href="https://www.linkedin.com/in/astha-jain-4363a0286?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fa fa-linkedin"></i></a>
-                <a href="https://www.instagram.com/_aastha.06/"><i class="fa fa-instagram"></i></a>
+            <div class="text-slate-600 font-medium">
+              Team Members
+            </div>
+          </div>
+          <div class="stat-card bg-white p-6 shadow-lg border border-slate-200">
+            <div class="text-4xl font-bold text-blue-600 mb-2">
+              25+
+            </div>
+            <div class="text-slate-600 font-medium">
+              Countries
+            </div>
+          </div>
+          <div class="stat-card bg-white p-6 shadow-lg border border-slate-200">
+            <div class="text-4xl font-bold text-blue-600 mb-2">
+              $120M
+            </div>
+            <div class="text-slate-600 font-medium">
+              Series B Funding
+            </div>
+          </div>
+          <div class="stat-card bg-white p-6 shadow-lg border border-slate-200">
+            <div class="text-4xl font-bold text-blue-600 mb-2">
+              4.8⭐
+            </div>
+            <div class="text-slate-600 font-medium">
+              Glassdoor Rating
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Carousel -->
+    <div id="content">
+
+      <% if(data){ %>
+        <%- data %>
+
+          <% } else{ %>
+
+
+            <div id="carouselExampleRide" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+              <div class="carousel-inner">
+                <div id="second" class="carousel-item active">
+                  <img src="carousel.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <div id="third">
+                    <h2>What Goes into a Perfect Recruitment Process?</h2>
+                    <p>An efficient recruitment process is an organization-specific sourcing model that aims to find the
+                      right fit for the right job at the right time. It is a step-by-step approach to bringing in
+                      talented people who can help the company grow. An all-inclusive recruitment process has 5 key
+                      phases but it may vary from company to company depending on the business vertical, organizational
+                      structure, size of the company, nature of operations, existing recruitment workflow and selection
+                      process.</p>
+
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div id="fourth">
+                    <h2 class="quote">Bringing out the potential in you</h2>
+
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+
+
+
+            <% } %>
+    </div>
+    <section class="relative z-10 py-16 overflow-hidden bg-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center"><span
+          class="text-sm font-semibold text-blue-600 uppercase tracking-wider">Employee Experience</span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-4">Life at Our Company</h2>
+        <p class="text-lg text-slate-600 mt-3 max-w-2xl mx-auto">Experience a workplace designed for growth,
+          collaboration, and innovation</p>
+      </div>
+      <div class="relative overflow-hidden">
+        <div class="carousel-track flex gap-4" style="width: max-content;">
+          <!-- Employee experience cards (static HTML instead of JS) -->
+          <div
+            class="flex-shrink-0 w-80 bg-white border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 mb-2">Cross-Functional Teams</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">Collaborate with diverse experts across engineering,
+                  design, and product.</p>
               </div>
             </div>
           </div>
-          
-          <div class="footer-bottom">
-            <p>&copy; 2025 HireMap | All rights reserved.</p>
+          <div
+            class="flex-shrink-0 w-80 bg-white border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 mb-2">Innovation Labs</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">20% time for passion projects and experimental
+                  initiatives that drive innovation.</p>
+              </div>
+            </div>
           </div>
-        </footer>
-        
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+          <div
+            class="flex-shrink-0 w-80 bg-white border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 mb-2">Flexible Schedule</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">Work when you're most productive with core hours and
+                  async collaboration.</p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex-shrink-0 w-80 bg-white border border-slate-200 p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="font-bold text-slate-900 mb-2">Remote-First Culture</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">Work from anywhere with $500 annual home office
+                  stipend and co-working passes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Open Roles -->
+    <section id="roles" class="relative z-10 px-4 sm:px-6 lg:px-8 py-20 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-12"><span class="text-sm font-semibold text-blue-600 uppercase tracking-wider">Careers</span>
+          <h2 id="roles-title" class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mt-2 mb-4">Open
+            Positions</h2>
+          <p class="text-lg text-slate-600 max-w-2xl">Join our talented team and help us build the future of technology
+          </p>
+        </div>
+        <!-- Static "filters" row (no JS rendering) -->
+        <div class="flex flex-wrap gap-3 mb-10 pb-6 border-b border-slate-200">
+          <span class="px-5 py-2.5 font-medium text-sm bg-blue-600 text-white rounded-full">All Departments</span>
+          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Engineering</span>
+          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Design</span>
+          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Marketing</span>
+        </div>
+        <!-- Roles rendered as plain HTML instead of client-side JS -->
+        <div id="roles-container" class="space-y-4">
+          <%if(jobs){%>
+            <% for (const job of jobs) { %>
+              <div class="role-card bg-white p-6 border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <h3 class="text-xl font-bold text-slate-900">
+                        <%= job.job_name %>
+                      </h3>
+                      <span
+                        class="hidden sm:inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 uppercase">Full-time</span>
+                    </div>
+                    <div class="flex flex-wrap gap-4 text-sm text-slate-500 mb-3">
+                      <span>
+                        <%= job.category %>
+                      </span>
+                      <span>
+                        <%= job.work_mode %> / <%= job.location %>
+                      </span>
+                      <span>
+                        <%if(job.days_ago==0){%>Today<%}else if(job.days_ago==1){%>Yesterday<%}else{%>
+                              <%= job.days_ago %> days ago<%}%>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="flex sm:flex-col items-center sm:items-end justify-between gap-3">
+                    <span class="text-xl sm:text-2xl font-bold text-blue-600">
+                      <%= job.stipend %>
+                    </span>
+                    <button onclick="window.location.href='/jobs/<%= job.id %>'"
+                      class="rolebutton px-6 py-2.5 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-sm">View
+                      Details</button>
+                  </div>
+                </div>
+              </div>
+              <% }} %>
+        </div>
+      </div>
+    </section><!-- Why Join Us -->
+    <section id="why-us" class="relative z-10 px-4 sm:px-6 lg:px-8 py-20 bg-slate-900">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16"><span class="text-sm font-semibold text-blue-400 uppercase tracking-wider">Why
+            Join Us</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mt-4">Work That Matters</h2>
+          <p class="text-lg text-slate-300 mt-4 max-w-2xl mx-auto">We're not just building products—we're shaping the
+            future of how people work and collaborate</p>
+        </div>
+        <!-- Static Why Us cards instead of JS rendering -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="why-us-cards">
+          <div class="bg-slate-800 p-8 border border-slate-700 hover:border-blue-500 transition-colors">
+            <div class="w-12 h-12 bg-blue-600 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Cutting-Edge Technology</h3>
+            <p class="text-slate-300 leading-relaxed">Work with the latest technologies and tools. We invest heavily in
+              keeping our tech stack modern and efficient.</p>
+          </div>
+          <div class="bg-slate-800 p-8 border border-slate-700 hover:border-blue-500 transition-colors">
+            <div class="w-12 h-12 bg-blue-600 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Talented Team</h3>
+            <p class="text-slate-300 leading-relaxed">Learn from the best. Our team includes experts from leading tech
+              companies who are passionate about mentorship.</p>
+          </div>
+          <div class="bg-slate-800 p-8 border border-slate-700 hover:border-blue-500 transition-colors">
+            <div class="w-12 h-12 bg-blue-600 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3">Fast-Growing Company</h3>
+            <p class="text-slate-300 leading-relaxed">Join us at an exciting stage. We're scaling rapidly with
+              opportunities for career advancement at every level.</p>
+          </div>
+        </div>
+      </div>
+    </section><!-- Benefits -->
+    <section id="benefits"
+      class="relative z-10 px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 overflow-hidden">
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="text-center mb-16"><span
+            class="text-sm font-semibold text-blue-600 uppercase tracking-wider">Comprehensive Benefits</span>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-3 mb-3">What We Offer Our Team</h2>
+          <p class="text-base text-slate-600 max-w-2xl mx-auto">We invest in our people with industry-leading benefits
+            and perks designed to support your success, well-being, and growth.</p>
+        </div>
+        <div class="mb-10">
+          <!-- Benefit tabs as static HTML; JS only switches visibility -->
+          <div class="flex flex-wrap justify-center gap-2 mb-6" id="benefit-tabs">
+            <button onclick="showBenefitCategory('compensation')"
+              class="benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-blue-600 text-white"
+              data-category="compensation">💰 Compensation</button>
+            <button onclick="showBenefitCategory('health')"
+              class="benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-white text-slate-700 border border-slate-200"
+              data-category="health">🏥 Health &amp; Wellness</button>
+            <button onclick="showBenefitCategory('flexibility')"
+              class="benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-white text-slate-700 border border-slate-200"
+              data-category="flexibility">🌍 Flexibility</button>
+            <button onclick="showBenefitCategory('growth')"
+              class="benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-white text-slate-700 border border-slate-200"
+              data-category="growth">📈 Growth &amp; Learning</button>
+          </div>
+          <!-- Compensation benefits -->
+          <div id="benefit-compensation" class="benefit-category-content">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="benefits-comp">
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Competitive Salary</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Top-tier compensation packages that reflect your
+                  experience and impact, with transparent salary bands.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Market-rate salaries</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Annual reviews &amp; raises</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Equity &amp; Stock Options</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Share in our success with competitive equity
+                  grants. Every team member is an owner.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Generous stock options</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>4-year vesting schedule</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Performance Bonuses</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Quarterly and annual bonuses tied to individual
+                  and company performance.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Quarterly bonuses</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Merit-based increases</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Health benefits -->
+          <div id="benefit-health" class="benefit-category-content hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="benefits-health">
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Premium Health Insurance</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Comprehensive medical, dental, and vision
+                  coverage with minimal out-of-pocket costs.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>100% employer-paid premiums</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Family coverage included</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Mental Health Support</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Free therapy sessions, meditation apps, and
+                  mental wellness resources.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Unlimited therapy sessions</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Mental health days</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Fitness &amp; Wellness</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Gym memberships, fitness classes, and quarterly
+                  wellness stipends.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>$100/month fitness stipend</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Virtual wellness programs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Flexibility benefits -->
+          <div id="benefit-flexibility" class="benefit-category-content hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="benefits-flex">
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Remote-First Culture</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Work from anywhere in the world with async
+                  communication and flexible schedules.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Work from anywhere</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Flexible hours</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Unlimited Time Off</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Take the time you need with no cap on vacation
+                  days. We trust you.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>No PTO limits</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Mandatory 2-week minimum</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Home Office Stipend</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">$500 annual budget for your home office setup and
+                  co-working space passes.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Equipment allowance</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Co-working memberships</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Growth benefits -->
+          <div id="benefit-growth" class="benefit-category-content hidden">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="benefits-growth">
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-violet-500 to-violet-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Learning &amp; Development</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">$2,500 annual budget for courses, books,
+                  conferences, and certifications.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>$2,500 annual budget</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Conference attendance</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Mentorship Program</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Paired mentorship with senior leaders and
+                  cross-functional learning opportunities.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>1-on-1 mentorship</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Leadership training</li>
+                </ul>
+              </div>
+              <div
+                class="benefit-card bg-white border border-slate-200 p-6 hover:border-blue-400 hover:shadow-lg transition-all">
+                <div
+                  class="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">Career Advancement</h3>
+                <p class="text-sm text-slate-600 leading-relaxed mb-3">Clear career paths with quarterly reviews and
+                  promotion opportunities.</p>
+                <ul class="space-y-1.5 text-xs text-slate-500">
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Defined career ladders</li>
+                  <li class="flex items-center gap-2"><svg class="w-3.5 h-3.5 text-blue-500" fill="none"
+                      stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>Internal mobility</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 pt-12 border-t border-slate-300">
+          <h3 class="text-xl font-bold text-slate-900 text-center mb-6">By The Numbers</h3>
+          <div class="relative overflow-hidden">
+            <div class="stats-carousel-track flex gap-6" style="width: max-content;" id="stats-carousel">
+              <!-- Static stats cards instead of JS rendering -->
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-blue-600 mb-2">100%</div>
+                <div class="text-sm text-slate-600 font-medium">Employer-Paid Health Insurance</div>
+              </div>
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-purple-600 mb-2">$2.5K</div>
+                <div class="text-sm text-slate-600 font-medium">Annual Learning Budget</div>
+              </div>
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-emerald-600 mb-2">Unlimited</div>
+                <div class="text-sm text-slate-600 font-medium">Paid Time Off</div>
+              </div>
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-pink-600 mb-2">4 Weeks</div>
+                <div class="text-sm text-slate-600 font-medium">Parental Leave</div>
+              </div>
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-cyan-600 mb-2">$500</div>
+                <div class="text-sm text-slate-600 font-medium">Home Office Stipend</div>
+              </div>
+              <div class="flex-shrink-0 w-56 bg-white border border-slate-200 p-6 text-center shadow-sm">
+                <div class="text-4xl font-bold text-orange-600 mb-2">25+</div>
+                <div class="text-sm text-slate-600 font-medium">Countries Represented</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- Culture -->
+    <section id="culture" class="relative z-10 px-4 sm:px-6 lg:px-8 py-20 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16"><span class="text-sm font-semibold text-blue-600 uppercase tracking-wider">Our
+            Foundation</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mt-4">Culture &amp; Core Values</h2>
+          <p class="text-lg text-slate-600 mt-4 max-w-3xl mx-auto">Our values aren't just words on a wall—they guide
+            every decision we make and shape how we work together every day.</p>
+        </div>
+        <!-- Static culture cards instead of JS rendering -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="culture-cards">
+          <div class="bg-slate-50 border-2 border-slate-200 p-8 hover:border-blue-500 transition-all">
+            <div class="flex items-start gap-6">
+              <div class="w-14 h-14 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Innovation &amp; Excellence</h3>
+                <p class="text-slate-600 leading-relaxed">We continuously push boundaries and challenge the status quo.
+                  Our team is empowered to experiment, take calculated risks, and learn from failures.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-slate-50 border-2 border-slate-200 p-8 hover:border-blue-500 transition-all">
+            <div class="flex items-start gap-6">
+              <div class="w-14 h-14 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Collaboration &amp; Diversity</h3>
+                <p class="text-slate-600 leading-relaxed">We believe diverse perspectives drive better outcomes. Our
+                  inclusive culture ensures every team member feels heard, valued, and empowered.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-slate-50 border-2 border-slate-200 p-8 hover:border-blue-500 transition-all">
+            <div class="flex items-start gap-6">
+              <div class="w-14 h-14 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Integrity &amp; Transparency</h3>
+                <p class="text-slate-600 leading-relaxed">Trust is earned through consistent actions. We operate with
+                  complete transparency, sharing company metrics and decisions openly.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-slate-50 border-2 border-slate-200 p-8 hover:border-blue-500 transition-all">
+            <div class="flex items-start gap-6">
+              <div class="w-14 h-14 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-slate-900 mb-3">Growth &amp; Well-being</h3>
+                <p class="text-slate-600 leading-relaxed">Your personal and professional development is our priority. We
+                  provide mentorship, learning budgets, and clear career paths.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section><!-- Footer -->
+    <footer class="relative z-10 bg-slate-900 px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div><span id="footer-company-name" class="text-xl font-bold text-white">Nexus Tech</span>
+        </div>
+        <p class="text-slate-400 text-center md:text-right">© 2024 All rights reserved. Building the future, one line at
+          a time.</p>
+      </div>
+    </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      company_name: "Nexus Tech",
+      tagline: "Join a team of innovators shaping tomorrow's technology. Discover opportunities that match your passion and expertise.",
+      roles_section_title: "Open Positions"
+    };
+
+    function showBenefitCategory(category) {
+      document.querySelectorAll('.benefit-category-content').forEach(c => c.classList.add('hidden'));
+      document.getElementById(`benefit-${category}`).classList.remove('hidden');
+      document.querySelectorAll('.benefit-tab-btn').forEach(btn => {
+        btn.className = btn.dataset.category === category ? 'benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-blue-600 text-white' : 'benefit-tab-btn px-5 py-2.5 text-sm font-semibold transition-all bg-white text-slate-700 border border-slate-200';
+      });
+    }
+
+    async function onConfigChange(config) {
+      ['nav-company-name', 'hero-company-name', 'footer-company-name'].forEach(id => {
+        document.getElementById(id).textContent = config.company_name || defaultConfig.company_name;
+      });
+      document.getElementById('hero-tagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('roles-title').textContent = config.roles_section_title || defaultConfig.roles_section_title;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
+        mapToEditPanelValues: (config) => new Map([
+          ["company_name", config.company_name || defaultConfig.company_name],
+          ["tagline", config.tagline || defaultConfig.tagline],
+          ["roles_section_title", config.roles_section_title || defaultConfig.roles_section_title]
+        ])
+      });
+    }
+    onConfigChange(defaultConfig);
+
+
+
+
+
+
+  </script>
+  <% if (showdata) { %>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const target = document.getElementById("content");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    </script>
+    <% } %>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+      <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c48e13456369633',t:'MTc2OTUyMzUxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 
 </body>
-</html> 
 
-
-<script>
-  const toggleBtn = document.getElementById('menuToggle');
-  const sideMenu = document.getElementById('roleMenu');
-  const contentArea = document.querySelector('.content');
-
-  toggleBtn.addEventListener('click', () => {
-    sideMenu.classList.toggle('hidden');
-    document.body.classList.toggle('menu-closed');
-  });
-
-  const buttons = document.body.getElementsByClassName("role-btn");
-
-for (let btn of buttons) {
-  btn.addEventListener("click", () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-}
-
-</script>
-
+</html>

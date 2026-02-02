@@ -53,43 +53,152 @@ app.set("views", path.join(__dirname, "views"));
 
 
 app.get("/", (req, res) => {
+  
   res.render("first_page.ejs");
 });
+
+const result =await  db.query(`
+SELECT 
+    hr_id,
+    job_name,
+    id,
+    category,
+    work_mode,
+    location,
+    job_type,
+    (CURRENT_DATE - posted_time::date) AS days_ago,
+    stipend,
+    minimum_qualifications,
+    preferred_qualifications,
+    about_the_job,
+    responsibilities,
+    procedure
+FROM jobs;
+
+`);
+
+const jobs = result.rows;
+console.log(jobs);
+
+function buildJDHTML(job) {
+
+  const days = Number(job.days_ago);
+  let postedText;
+
+  if (days === 0) postedText = "Today";
+  else if (days === 1) postedText = "1 day ago";
+  else postedText = `${days} days ago`;
+
+  return `
+    <div class="job-detail">
+      <h2>${job.job_name}</h2>
+
+      ${job.category ? `<p><strong>Category:</strong> ${job.category}</p>` : ""}
+      ${job.work_mode ? `<p><strong>Work Mode:</strong> ${job.work_mode}</p>` : ""}
+      ${job.location ? `<p><strong>Location:</strong> ${job.location}</p>` : ""}
+      ${job.job_type ? `<p><strong>Job Type:</strong> ${job.job_type}</p>` : ""}
+      <p><strong>Posted:</strong> ${postedText}</p>
+      ${job.stipend ? `<p><strong>Stipend:</strong> ₹${job.stipend}</p>` : ""}
+
+      ${
+        job.about_the_job?.trim()
+          ? `
+            <h3>About the Job</h3>
+            <ul>
+              ${job.about_the_job
+                .split("\n")
+                .filter(v => v.trim())
+                .map(v => `<li>${v}</li>`)
+                .join("")}
+            </ul>
+          `
+          : ""
+      }
+
+      ${
+        job.minimum_qualifications?.trim()
+          ? `
+            <h3>Minimum Qualifications</h3>
+            <ul>
+              ${job.minimum_qualifications
+                .split("\n")
+                .filter(v => v.trim())
+                .map(v => `<li>${v}</li>`)
+                .join("")}
+            </ul>
+          `
+          : ""
+      }
+
+      ${
+        job.preferred_qualifications?.trim()
+          ? `
+            <h3>Preferred Qualifications</h3>
+            <ul>
+              ${job.preferred_qualifications
+                .split("\n")
+                .filter(v => v.trim())
+                .map(v => `<li>${v}</li>`)
+                .join("")}
+            </ul>
+          `
+          : ""
+      }
+
+      ${
+        job.responsibilities?.trim()
+          ? `
+            <h3>Responsibilities</h3>
+            <ul>
+              ${job.responsibilities
+                .split("\n")
+                .filter(v => v.trim())
+                .map(v => `<li>${v}</li>`)
+                .join("")}
+            </ul>
+          `
+          : ""
+      }
+
+      ${
+        job.procedure?.trim()
+          ? `
+            <h3>Procedure</h3>
+            <ul>
+              ${job.procedure
+                .split("\n")
+                .filter(v => v.trim())
+                .map(v => `<li>${v}</li>`)
+                .join("")}
+            </ul>
+          `
+          : ""
+      }
+    </div>
+  `;
+}
+
 app.get("/index", (req, res) => {
-  res.render("index.ejs", { data: null });
+  res.render("index.ejs", {showdata: false, data: null, jobs: jobs });
 });
 
-app.get("/SoftwareEngineer", (req, res) => {
-  res.render("index.ejs", { data: info.SoftwareEngineer.htmlContent });
-});
-app.get("/DataAnalyst", (req, res) => {
-  res.render("index.ejs", { data: info.DataAnalyst.htmlContent });
-});
-app.get("/CloudEngineer", (req, res) => {
-  res.render("index.ejs", { data: info.CloudEngineer.htmlContent });
-});
-app.get("/CyberSecurity", (req, res) => {
-  res.render("index.ejs", { data: info.cyberSecurity.htmlContent });
-});
-app.get("/ProductManager", (req, res) => {
-  res.render("index.ejs", { data: info.ProductManager.htmlContent });
-});
-app.get("/UX/UIDesigner", (req, res) => {
-  res.render("index.ejs", { data: info.uxUiDesigner.htmlContent });
-});
-app.get("/TechnicalSupportEngineer", (req, res) => {
-  res.render("index.ejs", { data: info.TechnicalSupportEngineer.htmlContent });
-});
-app.get("/DevOpsEngineer", (req, res) => {
-  res.render("index.ejs", { data: info.DevOpsEngineer.htmlContent });
-});
-app.get("/AI/MLEngineer", (req, res) => {
-  res.render("index.ejs", { data: info.aiMlEngineer.htmlContent });
-});
-app.get("/BusinessAnalyst", (req, res) => {
-  res.render("index.ejs", { data: info.BusinessAnalyst.htmlContent });
-});
+app.get("/jobs/:slug", (req, res) => {
+  const { slug } = req.params;
+  console.log("slug:", slug);
 
+  const job = jobs.find(j => j.id == slug);
+  console.log("job:", job);
+
+  if (!job) {
+    return res.status(404).send("Job not found");
+  }
+
+  res.render("index.ejs", {
+    showdata: true,
+    data: buildJDHTML(job),
+    jobs: jobs
+  });
+});
 app.get("/Clogin",(req,res)=>{
   res.render("CLogin");
 });
