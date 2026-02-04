@@ -514,7 +514,7 @@
           </div>
           <div class="stat-card bg-white p-6 shadow-lg border border-slate-200">
             <div class="text-4xl font-bold text-blue-600 mb-2">
-              4.8⭐
+              4.8
             </div>
             <div class="text-slate-600 font-medium">
               Glassdoor Rating
@@ -660,14 +660,15 @@
         </div>
         <!-- Static "filters" row (no JS rendering) -->
         <div class="flex flex-wrap gap-3 mb-10 pb-6 border-b border-slate-200">
-          <span class="px-5 py-2.5 font-medium text-sm bg-blue-600 text-white rounded-full">All Departments</span>
-          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Engineering</span>
-          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Design</span>
-          <span class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Marketing</span>
+          <button onclick="window.location.href='/index'" class="px-5 py-2.5 font-medium text-sm bg-blue-600 text-white rounded-full">All Departments</button>
+          <button onclick="window.location.href='/engineering'" class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Engineering</button>
+          <button onclick="window.location.href='/design'" class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Design</button>
+          <button onclick="window.location.href='/marketing'" class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Marketing</button>
+          <button onclick="window.location.href='/finance'" class="px-5 py-2.5 font-medium text-sm bg-slate-100 text-slate-700 rounded-full">Finance</button>
         </div>
         <!-- Roles rendered as plain HTML instead of client-side JS -->
         <div id="roles-container" class="space-y-4">
-          <%if(jobs){%>
+          <% if (Array.isArray(jobs) && jobs.length > 0) { %>
             <% for (const job of jobs) { %>
               <div class="role-card bg-white p-6 border border-slate-200 shadow-sm">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -676,36 +677,34 @@
                       <h3 class="text-xl font-bold text-slate-900">
                         <%= job.job_name %>
                       </h3>
-                      <span
-                        class="hidden sm:inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 uppercase">Full-time</span>
+                      <span class="hidden sm:inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 uppercase">Full-time</span>
                     </div>
                     <div class="flex flex-wrap gap-4 text-sm text-slate-500 mb-3">
+                      <span><%= job.category %></span>
+                      <span><%= job.department %> Department</span>
+                      <span><%= job.work_mode %> / <%= job.location %></span>
                       <span>
-                        <%= job.category %>
-                      </span>
-                      <span>
-                        <%= job.work_mode %> / <%= job.location %>
-                      </span>
-                      <span>
-                        <%if(job.days_ago==0){%>Today<%}else if(job.days_ago==1){%>Yesterday<%}else{%>
-                              <%= job.days_ago %> days ago<%}%>
+                        <% if (job.days_ago == 0) { %>Today<% } else if (job.days_ago == 1) { %>Yesterday<% } else { %>
+                          <%= job.days_ago %> days ago
+                        <% } %>
                       </span>
                     </div>
                   </div>
                   <div class="flex sm:flex-col items-center sm:items-end justify-between gap-3">
-                    <span class="text-xl sm:text-2xl font-bold text-blue-600">
-                      <%= job.stipend %>
-                    </span>
-                    <button onclick="window.location.href='/jobs/<%= job.id %>'"
-                      class="rolebutton px-6 py-2.5 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-sm">View
-                      Details</button>
+                    <span class="text-xl sm:text-2xl font-bold text-blue-600"><%= job.stipend %></span>
+                    <button onclick="window.location.href='/jobs/<%= job.id %>'" class="rolebutton px-6 py-2.5 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors text-sm">View Details</button>
                   </div>
                 </div>
               </div>
-              <% }} %>
+            <% } %>
+          <% } else { %>
+            <p>No jobs found in this department.</p>
+            <p>Please check back later for new openings.</p>
+          <% } %>
         </div>
       </div>
-    </section><!-- Why Join Us -->
+    </section>
+    <!-- Why Join Us -->
     <section id="why-us" class="relative z-10 px-4 sm:px-6 lg:px-8 py-20 bg-slate-900">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16"><span class="text-sm font-semibold text-blue-400 uppercase tracking-wider">Why
@@ -1157,6 +1156,15 @@
                 </svg>
               </div>
               <div>
+                <h3 class="text-xl font-bold text-slate
+            <div class="flex items-start gap-6">
+              <div class="w-14 h-14 bg-blue-600 flex items-center justify-center flex-shrink-0">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <div>
                 <h3 class="text-xl font-bold text-slate-900 mb-3">Integrity &amp; Transparency</h3>
                 <p class="text-slate-600 leading-relaxed">Trust is earned through consistent actions. We operate with
                   complete transparency, sharing company metrics and decisions openly.</p>
@@ -1250,6 +1258,16 @@
     </script>
     <% } %>
 
+      <% if (departmentSelected) { %>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const target = document.getElementById("roles");
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    </script>
+    <% } %>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c48e13456369633',t:'MTc2OTUyMzUxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 

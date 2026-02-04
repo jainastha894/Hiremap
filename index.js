@@ -72,13 +72,14 @@ SELECT
     preferred_qualifications,
     about_the_job,
     responsibilities,
-    procedure
+    procedure,
+    department
 FROM jobs;
 
 `);
 
 const jobs = result.rows;
-console.log(jobs);
+console.log("Jobs : ",jobs);
 
 function buildJDHTML(job) {
 
@@ -153,6 +154,7 @@ function buildJDHTML(job) {
               ${job.responsibilities
                 .split("\n")
                 .filter(v => v.trim())
+                
                 .map(v => `<li>${v}</li>`)
                 .join("")}
             </ul>
@@ -179,8 +181,65 @@ function buildJDHTML(job) {
 }
 
 app.get("/index", (req, res) => {
-  res.render("index.ejs", {showdata: false, data: null, jobs: jobs });
+  res.render("index.ejs", {showdata: false, data: null, jobs: jobs, departmentSelected:false });
 });
+
+app.get("/engineering", async (req, res) => {
+
+ const filteredJobs = jobs.filter(j => j.department.toLowerCase() == "engineering");
+
+  console.log("filteredJobs:", filteredJobs);
+
+  res.render("index.ejs", {
+    showdata: false,
+    data: null,
+    jobs: filteredJobs,
+    departmentSelected:true
+  });
+});
+
+app.get("/marketing", async (req, res) => {
+
+ const filteredJobs = jobs.filter(j => j.department.toLowerCase() == "marketing");
+
+  console.log("filteredJobs:", filteredJobs);
+
+  res.render("index.ejs", {
+    showdata: false,
+    data: null,
+    jobs: filteredJobs,
+    departmentSelected:true
+  });
+});
+
+app.get("/design", async (req, res) => {
+
+ const filteredJobs = jobs.filter(j => j.department.toLowerCase() == "design");
+
+  console.log("filteredJobs:", filteredJobs);
+
+  res.render("index.ejs", {
+    showdata: false,
+    data: null,
+    jobs: filteredJobs,
+    departmentSelected:true
+  });
+});
+
+app.get("/finance", async (req, res) => {
+
+ const filteredJobs = jobs.filter(j => j.department.toLowerCase() == "finance");
+
+  console.log("filteredJobs:", filteredJobs);
+
+  res.render("index.ejs", {
+    showdata: false,
+    data: null,
+    jobs: filteredJobs,
+    departmentSelected:true
+  });
+});
+
 
 app.get("/jobs/:slug", (req, res) => {
   const { slug } = req.params;
@@ -196,9 +255,11 @@ app.get("/jobs/:slug", (req, res) => {
   res.render("index.ejs", {
     showdata: true,
     data: buildJDHTML(job),
-    jobs: jobs
+    jobs: jobs,
+    departmentSelected:false
   });
 });
+
 app.get("/Clogin",(req,res)=>{
   res.render("CLogin");
 });
