@@ -1,18 +1,277 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
   <meta charset="UTF-8">
-  <title>Welcome to HireMap</title>
-<link rel="stylesheet" href="/styles/first_page.css">
-
-</head>
-<body>
-  <h1>Welcome to <span style="color:yellow;">HireMap</span></h1>
-  <p class="subtitle">Choose your role to get started</p>
-
-  <div class="options">
-    <a href="/hr/dashboard" class="option">I'm an HR</a>
-    <a href="/index" class="option">I'm a Candidate</a>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Role Selector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      font-family: 'DM Sans', sans-serif;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.2; }
+      100% { transform: scale(0.8); opacity: 0.5; }
+    }
+    
+    .role-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .role-card:hover {
+      transform: translateY(-8px) scale(1.02);
+    }
+    
+    .role-card:hover .card-icon {
+      animation: float 2s ease-in-out infinite;
+    }
+    
+    .role-card:hover .pulse-bg {
+      animation: pulse-ring 2s ease-in-out infinite;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8fafb 0%, #f3f4f6 50%, #eff2f5 100%);
+    }
+    
+    .glass-effect {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    
+    .selected-state {
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2), 0 10px 25px -5px rgba(37, 99, 235, 0.1);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full gradient-bg overflow-auto">
+   <div class="min-h-full flex flex-col items-center justify-center px-6 py-12"><!-- Decorative Elements -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+     <div class="absolute top-20 left-10 w-72 h-72 bg-blue-100/40 rounded-full blur-3xl"></div>
+     <div class="absolute bottom-20 right-10 w-96 h-96 bg-slate-100/40 rounded-full blur-3xl"></div>
+     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-50/30 rounded-full blur-3xl"></div>
+    </div>
+    <!-- Content -->
+    <div class="relative z-10 text-center mb-12">
+     <h1 id="page-title" class="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Welcome!</h1>
+     <p id="page-subtitle" class="text-lg text-gray-600 max-w-md mx-auto">Select your role to continue with the personalized experience</p>
+    </div><!-- Role Selection Cards -->
+    <div class="relative z-10 flex flex-col md:flex-row gap-6 md:gap-8 w-full max-w-2xl">
+      <!-- Candidate Card -->
+       <button id="candidate-btn" class="role-card glass-effect flex-1 rounded-2xl p-8 cursor-pointer group focus:outline-none focus:selected-state" onclick="window.location.href='/index'">
+      <div class="relative flex flex-col items-center"><!-- Icon Background -->
+       <div class="pulse-bg absolute w-24 h-24 bg-blue-100 rounded-full"></div><!-- Icon -->
+       <div class="card-icon relative w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-200">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+        </svg>
+       </div><!-- Text -->
+      <h2 id="candidate-text" class="text-xl font-semibold text-gray-900 mb-2">I'm a Candidate</h2>
+       <p class="text-sm text-gray-600 text-center">Looking for opportunities and ready to showcase my skills</p><!-- Arrow indicator -->
+       <div class="mt-6 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
+        <svg class="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+       </div>
+      </div></button>
+       <!-- HR Card -->
+        <button id="hr-btn" class="role-card glass-effect flex-1 rounded-2xl p-8 cursor-pointer group focus:outline-none focus:selected-state" onclick="window.location.href='/login'">
+      <div class="relative flex flex-col items-center"><!-- Icon Background -->
+       <div class="pulse-bg absolute w-24 h-24 bg-slate-100 rounded-full"></div><!-- Icon -->
+       <div class="card-icon relative w-20 h-20 bg-gradient-to-br from-slate-700 to-slate-800 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-slate-300">
+        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+       </div><!-- Text -->
+       <h2 id="hr-text" class="text-xl font-semibold text-gray-900 mb-2">I'm HR</h2>
+       <p class="text-sm text-gray-600 text-center">Hiring talent and building amazing teams</p><!-- Arrow indicator -->
+       <div class="mt-6 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-slate-100 transition-colors">
+        <svg class="w-5 h-5 text-gray-500 group-hover:text-slate-700 transition-colors" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+       </div>
+      </div></button>
+    </div><!-- Selection Indicator -->
+    <div id="selection-indicator" class="relative z-10 mt-10 opacity-0 transition-all duration-500 transform translate-y-4">
+     <div class="glass-effect rounded-full px-6 py-3 flex items-center gap-3">
+      <div id="selected-icon" class="w-8 h-8 rounded-full flex items-center justify-center"></div><span id="selected-text" class="text-gray-900 font-medium"></span>
+      <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+      </svg>
+     </div>
+    </div>
+   </div>
   </div>
-</body>
+  <script>
+    const defaultConfig = {
+      page_title: "Welcome! Who are you?",
+      page_subtitle: "Select your role to continue with the personalized experience",
+      candidate_button_text: "I'm a Candidate",
+      hr_button_text: "I'm HR",
+      selected_role: null,
+      background_color: "#f8fafb",
+      surface_color: "#ffffff",
+      text_color: "#111827",
+      primary_action_color: "#2563eb",
+      secondary_action_color: "#475569",
+      font_family: "DM Sans",
+      font_size: 16
+    };
+    
+    let currentSelectedRole = null;
+    
+    function selectRole(role) {
+      currentSelectedRole = role;
+      
+      const candidateBtn = document.getElementById('candidate-btn');
+      const hrBtn = document.getElementById('hr-btn');
+      const indicator = document.getElementById('selection-indicator');
+      const selectedIcon = document.getElementById('selected-icon');
+      const selectedText = document.getElementById('selected-text');
+      
+      // Reset both cards
+      candidateBtn.classList.remove('selected-state');
+      hrBtn.classList.remove('selected-state');
+      
+      if (role === 'candidate') {
+        candidateBtn.classList.add('selected-state');
+        selectedIcon.className = 'w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-700';
+        selectedIcon.innerHTML = '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>';
+        selectedText.textContent = 'Candidate selected';
+      } else {
+        hrBtn.classList.add('selected-state');
+        selectedIcon.className = 'w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800';
+        selectedIcon.innerHTML = '<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>';
+        selectedText.textContent = 'HR selected';
+      }
+      
+      // Show indicator
+      indicator.classList.remove('opacity-0', 'translate-y-4');
+      indicator.classList.add('opacity-100', 'translate-y-0');
+      
+      // Update config
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ selected_role: role });
+      }
+    }
+    
+    async function onConfigChange(config) {
+      const pageTitle = document.getElementById('page-title');
+      const pageSubtitle = document.getElementById('page-subtitle');
+      const candidateText = document.getElementById('candidate-text');
+      const hrText = document.getElementById('hr-text');
+      
+      pageTitle.textContent = config.page_title || defaultConfig.page_title;
+      pageSubtitle.textContent = config.page_subtitle || defaultConfig.page_subtitle;
+      candidateText.textContent = config.candidate_button_text || defaultConfig.candidate_button_text;
+      hrText.textContent = config.hr_button_text || defaultConfig.hr_button_text;
+      
+      // Apply font
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+      
+      // Apply font size scaling
+      const baseSize = config.font_size || defaultConfig.font_size;
+      pageTitle.style.fontSize = `${baseSize * 2.5}px`;
+      pageSubtitle.style.fontSize = `${baseSize * 1.125}px`;
+      candidateText.style.fontSize = `${baseSize * 1.25}px`;
+      hrText.style.fontSize = `${baseSize * 1.25}px`;
+      
+      // Handle selected role from config
+      if (config.selected_role && config.selected_role !== currentSelectedRole) {
+        selectRole(config.selected_role);
+      }
+    }
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["page_title", config.page_title || defaultConfig.page_title],
+        ["page_subtitle", config.page_subtitle || defaultConfig.page_subtitle],
+        ["candidate_button_text", config.candidate_button_text || defaultConfig.candidate_button_text],
+        ["hr_button_text", config.hr_button_text || defaultConfig.hr_button_text]
+      ]);
+    }
+    
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c98363592fe493a',t:'MTc3MDM1NTM2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

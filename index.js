@@ -80,6 +80,8 @@ FROM jobs;
 
 const jobs = result.rows;
 console.log("Jobs : ",jobs);
+// make jobs available to all views to prevent "jobs is not defined"
+app.locals.jobs = jobs;
 
 function buildJDHTML(job) {
 
@@ -92,7 +94,26 @@ function buildJDHTML(job) {
 
   return `
     <div class="job-detail">
-      <h2>${job.job_name}</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h2 style="margin:0;">${job.job_name}</h2>
+
+    <button onclick="location.href='/form'"
+      style="
+        background-color:#0d6efd;
+        color:#fff;
+        border:none;
+        padding:8px 14px;
+        border-radius:6px;
+        cursor:pointer;
+        font-size:14px;
+      "
+      onmouseover="this.style.backgroundColor='#6c757d'"
+      onmouseout="this.style.backgroundColor='#0d6efd'"
+    >
+      Apply Here
+    </button>
+  </div>
+
 
       ${job.category ? `<p><strong>Category:</strong> ${job.category}</p>` : ""}
       ${job.work_mode ? `<p><strong>Work Mode:</strong> ${job.work_mode}</p>` : ""}
@@ -268,7 +289,7 @@ app.get("/CRegister", (req,res)=>{
 });
 
 app.get("/form", (req, res) => {
-  res.render("form");
+  res.render("form", {jobs:jobs});
 });
 
 app.get("/about", (req, res) => {
