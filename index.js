@@ -78,7 +78,7 @@ SELECT
     responsibilities,
     procedure,
     department
-FROM jobs;
+FROM jobs ORDER BY posted_time DESC;
 
 `);
 
@@ -266,27 +266,24 @@ app.get("/finance", async (req, res) => {
 });
 
 
-app.get("/jobs/:slug", async (req, res) => {
-  const slug = req.params.slug;
-  // Adjust query to fetch job by slug or id stored as slug in DB
-  const result = await db.query("SELECT * FROM jobs WHERE id = $1 LIMIT 1", [slug]); // change as needed
-  const job = result.rows[0];
-  if (!job) return res.status(404).render("404.ejs");
+app.get("/jobs/:slug", (req, res) => {
+  const { slug } = req.params;
+  console.log("slug in view details: ", slug);
 
-  const host = req.protocol + "://" + req.get("host");
-  const canonical = host + req.originalUrl;
+  const job = jobs.find(j => j.id == slug);
 
-  res.render("job-detail.ejs", {
-    job,
-    title: `${job.job_name} - HireMap`,
-    description: (job.about_the_job || job.minimum_qualifications || "").slice(0, 160),
-    canonical,
-    og: {
-      title: `${job.job_name} - HireMap`,
-      description: (job.about_the_job || "").slice(0, 160),
-    }
+  if (!job) {
+    return res.status(404).send("Job not found");
+  }
+
+  res.render("index.ejs", {
+    showdata: true,
+    data: buildJDHTML(job),
+    jobs:jobs,
+    departmentSelected:false
   });
 });
+
 
 app.get("/Clogin",(req,res)=>{
   res.render("CLogin");
@@ -306,6 +303,76 @@ app.get("/about", (req, res) => {
 app.get("/login", (req, res) => {
   res.render("hr-login.ejs");
 });
+
+app.get("/post-job", (req, res) => {
+  res.render("post-jobs.ejs");
+});
+app.post("/post-job", async (req, res) => {
+
+    const { 
+        hr_id,
+        job_name,
+        category,
+        work_mode,
+        location,
+        job_type,
+        stipend,
+        department,
+        minimum_qualifications,
+        preferred_qualifications,
+        about_the_job,
+        responsibilities,
+        procedure
+    } = req.body;
+
+    try {
+        const query = `
+            INSERT INTO jobs (
+                hr_id,
+                job_name,
+                category,
+                work_mode,
+                location,
+                job_type,
+                stipend,
+                department,
+                minimum_qualifications,
+                preferred_qualifications,
+                about_the_job,
+                responsibilities,
+                procedure
+            )
+            VALUES (
+                $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13
+            )
+        `;
+
+        const values = [
+            hr_id,
+            job_name,
+            category,
+            work_mode,
+            location,
+            job_type,
+            stipend,
+            department,
+            minimum_qualifications || null,
+            preferred_qualifications || null,
+            about_the_job || null,
+            responsibilities || null,
+            procedure || null
+        ];
+
+        await db.query(query, values);
+
+        res.status(200).send("Job posted successfully!");
+
+    } catch (err) {
+        console.error("DB Error:", err.message);
+        res.status(500).send("Error saving job to database.");
+    }
+});
+
 
 app.get("/delete", async(req, res) => {
   const filename=req.query.filename;

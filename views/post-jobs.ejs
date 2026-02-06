@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a New Job | Hiremap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .form-container { max-width: 800px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .section-title { border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 20px; color: #007bff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-container">
+        <h2 class="text-center mb-4">Post a New Job Opening</h2>
+       <form action="/post-job" method="POST">
+
+    <div class="row g-3">
+        <h5 class="section-title">Basic Information</h5>
+
+        <div class="col-md-6">
+            <label class="form-label">HR ID*</label>
+            <input type="text" name="hr_id" class="form-control"
+                   placeholder="e.g. HR001" required>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Job Title*</label>
+            <input type="text" name="job_name" class="form-control"
+                   placeholder="e.g. Full Stack Developer" required>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Route / URL Identifier*</label>
+            <input type="text" name="route" class="form-control"
+                   placeholder="e.g. full-stack-dev-01" required>
+        </div>
+
+        <!-- CATEGORY (Text Input) -->
+        <div class="col-md-6">
+            <label class="form-label">Category*</label>
+            <input type="text" name="category" class="form-control"
+                   placeholder="e.g. Software Engineering" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Work Mode*</label>
+            <select name="work_mode" class="form-select" required>
+                <option value="Remote">Remote</option>
+                <option value="Office">Office</option>
+                <option value="Hybrid">Hybrid</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Location*</label>
+            <input type="text" name="location" class="form-control"
+                   placeholder="e.g. New Delhi" required>
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Job Type*</label>
+            <input type="text" name="job_type" class="form-control"
+                   placeholder="e.g. Full-time / Internship" required>
+        </div>
+
+        <!-- DEPARTMENT (Dropdown) -->
+        <div class="col-md-6">
+            <label class="form-label">Department*</label>
+            <select name="department" class="form-select" required>
+                <option value="" selected disabled>Choose a department...</option>
+                <option value="Engineering">Engineering</option>
+                <option value="Design">Design</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Finance">Finance</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Stipend / Salary*</label>
+            <input type="text" name="stipend" class="form-control"
+                   placeholder="e.g. ₹25,000 / Not Disclosed" required>
+        </div>
+
+        <h5 class="section-title mt-4">Detailed Descriptions (Optional)</h5>
+
+        <div class="col-12">
+            <label class="form-label">Minimum Qualifications</label>
+            <textarea name="minimum_qualifications" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Preferred Qualifications</label>
+            <textarea name="preferred_qualifications" class="form-control" rows="2"></textarea>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">About the Job</label>
+            <textarea name="about_the_job" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Responsibilities</label>
+            <textarea name="responsibilities" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Procedure / How to Apply</label>
+            <textarea name="procedure" class="form-control" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <button type="submit" class="btn btn-primary btn-lg px-5">
+            Submit Job Posting
+        </button>
+    </div>
+</form>
+
+    </div>
+</div>
+
+</body>
+</html>
