@@ -1,0 +1,38 @@
+<head>
+  <title><%= title || "HireMap Careers" %></title>
+  <meta name="description" content="<%= description || '' %>">
+  <link rel="canonical" href="<%= canonical %>">
+  <meta property="og:title" content="<%= og?.title || title %>">
+  <meta property="og:description" content="<%= og?.description || description %>">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <!-- Job content -->
+  <script type="application/ld+json">
+    <%= JSON.stringify({
+      "@context":"https://schema.org",
+      "@type":"JobPosting",
+      "title": job.job_name,
+      "description": (job.about_the_job || "").replace(/\n/g, " "),
+      "datePosted": job.posted_time ? new Date(job.posted_time).toISOString() : new Date().toISOString(),
+      "employmentType": job.job_type || "FULL_TIME",
+      "hiringOrganization": {
+        "@type":"Organization",
+        "name":"HireMap",
+        "sameAs":"https://your-domain.com"
+      },
+      "jobLocation": {
+        "@type":"Place",
+        "address": {
+          "@type":"PostalAddress",
+          "addressLocality": job.location || ""
+        }
+      },
+      "applicantLocationRequirements": {
+        "@type": "Country",
+        "name": "IN"
+      },
+      "baseSalary": job.stipend ? { "@type": "MonetaryAmount", "value": { "@type": "QuantitativeValue", "value": job.stipend } } : undefined
+    }, null, 2) %>
+  </script>
+</body>

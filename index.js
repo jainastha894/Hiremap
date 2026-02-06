@@ -12,6 +12,7 @@ import passport from "./passportConfig.js";
 import session from "express-session";
 import loginSignup from "./login-signup.js";
 import {generatePresignedUrl, uploadFile, deleteFile , listObjects} from "./s3functions.js";
+import compression from "compression";
 
 
 
@@ -23,7 +24,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = process.env.port || 5000;
 
-app.use(express.static("public"));
+app.use(compression()); // gzip/brotli compression for responses
+
+// Example: set caching for static assets
+app.use(express.static("public", { maxAge: 1000 * 60 * 60 * 24 * 7 })); // 1 week
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -262,22 +266,25 @@ app.get("/finance", async (req, res) => {
 });
 
 
-app.get("/jobs/:slug", (req, res) => {
-  const { slug } = req.params;
-  console.log("slug:", slug);
+app.get("/jobs/:slug", async (req, res) => {
+  const slug = req.params.slug;
+  // Adjust query to fetch job by slug or id stored as slug in DB
+  const result = await db.query("SELECT * FROM jobs WHERE id = $1 LIMIT 1", [slug]); // change as needed
+  const job = result.rows[0];
+  if (!job) return res.status(404).render("404.ejs");
 
-  const job = jobs.find(j => j.id == slug);
-  console.log("job:", job);
+  const host = req.protocol + "://" + req.get("host");
+  const canonical = host + req.originalUrl;
 
-  if (!job) {
-    return res.status(404).send("Job not found");
-  }
-
-  res.render("index.ejs", {
-    showdata: true,
-    data: buildJDHTML(job),
-    jobs: jobs,
-    departmentSelected:false
+  res.render("job-detail.ejs", {
+    job,
+    title: `${job.job_name} - HireMap`,
+    description: (job.about_the_job || job.minimum_qualifications || "").slice(0, 160),
+    canonical,
+    og: {
+      title: `${job.job_name} - HireMap`,
+      description: (job.about_the_job || "").slice(0, 160),
+    }
   });
 });
 
@@ -337,6 +344,22 @@ app.get("/records", async(req, res) => {
     const folders=await listObjects();
     console.log(`objects: ${folders.objects}, totalObjects: ${folders.totalObjects}, totalSize: ${folders.totalSize}`);
   }
+});
+
+app.get("/sitemap.xml", async (req, res) => {
+  const result = await db.query("SELECT id, job_name, posted_time FROM jobs");
+  const host = req.protocol + "://" + req.get("host");
+  const urls = result.rows.map(r => {
+    const loc = `${host}/jobs/${r.id}`; // use slug if available
+    const lastmod = new Date(r.posted_time).toISOString();
+    return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>`;
+  }).join("");
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${urls}
+  </urlset>`;
+  res.header("Content-Type", "application/xml");
+  res.send(xml);
 });
 
 
