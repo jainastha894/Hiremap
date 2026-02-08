@@ -13,12 +13,12 @@ const HR_PASSWORD = '123';
 
 
 // Render the login page at /hr/login
-router.get('/login', (req, res) => {
+router.get('/hr/login', (req, res) => {
   res.render('hr-login.ejs', { error: null });
 });
 
-router.get("/dashboard", async (req, res) => {
-  console.log("entered into dashboard block");
+router.get("/applicants", async (req, res) => {
+  console.log("entered into applicants block");
   if (req.isAuthenticated()) {
     console.log("req.isauthenticated() block");
     const sql = 'SELECT * FROM applicants order by submitted_at DESC';
@@ -31,8 +31,8 @@ router.get("/dashboard", async (req, res) => {
   }
 })
 
-router.post('/submit', passport.authenticate("hr-local", {
-  successRedirect: "/hr/dashboard",
+router.post('/hr/submit', passport.authenticate("hr-local", {
+  successRedirect: "/applicants",
   failureRedirect: "/hr/login"
 }));
 

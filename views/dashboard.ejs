@@ -1,41 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>HR Dashboard - HireMap</title>
-  <link rel="stylesheet" href="/styles/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard - HireMap</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f9; }
+
+        /* Sidebar Styling */
+        .sidebar { height: 100vh; background: #2c3e50; color: white; position: fixed; width: 250px; }
+        .sidebar .nav-link { color: #bdc3c7; padding: 15px 20px; border-radius: 0; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #34495e; color: white; }
+
+        /* Main Content Styling */
+        .main-content { margin-left: 250px; padding: 30px; }
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .table thead { background-color: #2c3e50; color: white; }
+        .table { table-layout: fixed; width: 100%; }
+        .table th:nth-child(1), .table td:nth-child(1) { width: 3%; } /* Checkbox */
+        .table th:nth-child(2), .table td:nth-child(2) { width: 5%; } /* Id */
+        .table th:nth-child(3), .table td:nth-child(3) { width: 12%; } /* Name */
+        .table th:nth-child(4), .table td:nth-child(4) { width: 15%; } /* Email */
+        .table th:nth-child(5), .table td:nth-child(5) { width: 10%; } /* Phone */
+        .table th:nth-child(6), .table td:nth-child(6) { width: 12%; } /* Address */
+        .table th:nth-child(7), .table td:nth-child(7) { width: 12%; } /* Role */
+        .table th:nth-child(8), .table td:nth-child(8) { width: 6%; } /* Resume */
+        .table th:nth-child(9), .table td:nth-child(9) { width: 10%; } /* Submitted At */
+        .table th:nth-child(10), .table td:nth-child(10) { width: 8%; } /* Department */
+        .table th:nth-child(11), .table td:nth-child(11) { width: 7%; } /* Actions */
+        .badge-cat { font-size: 0.8rem; text-transform: capitalize; }
+
+        /* Delete Button Pulse */
+        .btn-delete:hover { background-color: #dc3545; color: white; }
+    </style>
 </head>
 <body>
 
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-  <h1>HireMap – HR Dashboard</h1>
-
-  <button
-    style="
-      background-color:#007bff;
-      color:white;
-      border:none;
-      padding:16px 28px;
-      font-size:16px;
-      font-weight:600;
-      border-radius:6px;
-      cursor:pointer;
-    "
-    onmouseover="this.style.backgroundColor='#6c757d'"
-    onmouseout="this.style.backgroundColor='#007bff'"
-    onclick="window.location.href='/post-job'"
-  >
-    Post New Job
-  </button>
+<div class="sidebar d-flex flex-column">
+    <div class="p-4">
+        <h4 class="fw-bold"><i class="bi bi-map-fill me-2"></i>Hiremap</h4>
+    </div>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a href="/manage-jobs" class="nav-link "><i class="bi bi-briefcase me-2"></i> Manage Jobs</a>
+        </li>
+        <li class="nav-item">
+            <a href="/applicants" class="nav-link active"><i class="bi bi-people me-2"></i> Applicants</a>
+        </li>
+    </ul>
 </div>
 
-
-
-  <!-- Filter Form -->
-  <div class="filter-form">
-    <form id="filter-form">
-      <label for="role-filter">Filter by Role:</label>
-      <select id="role-filter" name="role">
+<div class="main-content">
+  <!-- Filters -->
+  <div class="d-flex gap-3 mb-3">
+    <div>
+      <label for="role-filter" class="form-label">Filter by Role:</label>
+      <select id="role-filter" class="form-select">
         <option value="">All</option>
         <option value="SoftwareEngineer">Software Engineer</option>
         <option value="DataAnalyst">Data Analyst</option>
@@ -48,49 +72,68 @@
         <option value="AIMLEngineer">AI/ML Engineer</option>
         <option value="BusinessAnalyst">Business Analyst</option>
       </select>
-      <button type="submit">Apply Filters</button>
-    </form>
+    </div>
+    <div>
+      <label for="department-filter" class="form-label">Filter by Department:</label>
+      <select id="department-filter" class="form-select">
+        <option value="">All</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Design">Design</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Finance">Finance</option>
+      </select>
+    </div>
   </div>
 
   <!-- Copy Emails Button -->
-  <button id="copy-emails-btn">Copy Selected Emails</button>
+  <button id="copy-emails-btn" class="btn btn-primary mb-3">Copy Selected Emails</button>
 
   <!-- Applicants Table -->
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Address</th>
-          <th>Role</th>
-          <th>Resume</th>
-          <th>Submitted At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% applicants.forEach((applicant, index) => { %>
-          <tr>
-            <td><input type="checkbox" class="select-row" data-email="<%= applicant.email %>"></td>
-            <td><%= index + 1 %></td>
-            <td><%= applicant.name %></td>
-            <td><%= applicant.email %></td>
-            <td><%= applicant.phone %></td>
-            <td><%= applicant.address %></td>
-            <td><%= applicant.role %></td>
-            <td><a id="<%= applicant.resume %>" href="" target="_blank" class="uniqueA view-link">View</a></td>
-
-            <td><%= new Date(applicant.submitted_at).toLocaleString() %></td>
-            <td><button class="delete-btn" data-id="<%= applicant.id %>">Delete</button></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0" id="applicantsTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Address</th>
+              <th>Role</th>
+              <th>Resume</th>
+              <th>Submitted At</th>
+              <th>Department</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% applicants.forEach((applicant, index) => { %>
+              <tr>
+                <td><input type="checkbox" class="select-row" data-email="<%= applicant.email %>"></td>
+                <td><%= index + 1 %></td>
+                <td><%= applicant.name %></td>
+                <td><%= applicant.email %></td>
+                <td><%= applicant.phone %></td>
+                <td><%= applicant.address %></td>
+                <td><%= applicant.role %></td>
+                <td><a id="<%= applicant.resume %>" href="" target="_blank" class="uniqueA view-link">View</a></td>
+                <td><%= new Date(applicant.submitted_at).toLocaleString() %></td>
+                <% if (applicant.department && applicant.department.length > 0) { %>
+                  <td><span class="badge bg-secondary badge-cat"><%= applicant.department %></span></td>
+                <% } else { %>
+                  <td><span class="badge bg-secondary badge-cat">N/A</span></td>
+                <% } %>
+                <td><button class="btn btn-outline-danger btn-sm delete-btn" data-id="<%= applicant.id %>">Delete</button></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+</div>
 
   <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -124,82 +167,89 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-    
-    document.addEventListener('DOMContentLoaded', () => {
-      const copyEmailsBtn = document.getElementById('copy-emails-btn');
-      const filterForm = document.getElementById('filter-form');
+document.addEventListener('DOMContentLoaded', () => {
+  const copyEmailsBtn = document.getElementById('copy-emails-btn');
+  const roleFilter = document.getElementById('role-filter');
+  const departmentFilter = document.getElementById('department-filter');
+  const tableBody = document.querySelector('#applicantsTable tbody');
+  const allRows = Array.from(tableBody.querySelectorAll('tr'));
 
-      // Copy Emails
-      copyEmailsBtn.addEventListener('click', () => {
-        const selectedEmails = [];
-        document.querySelectorAll('.select-row:checked').forEach((checkbox) => {
-          selectedEmails.push(checkbox.getAttribute('data-email'));
-        });
-        if (selectedEmails.length > 0) {
-          const emailText = selectedEmails.join('\n');
-          navigator.clipboard.writeText(emailText)
-            .then(() => alert('Emails copied to clipboard!'))
-            .catch((err) => alert('Error copying emails: ' + err));
-        } else {
-          alert('No applicants selected!');
-        }
-      });
+  // Copy Emails
+  copyEmailsBtn.addEventListener('click', () => {
+    const selectedEmails = [];
+    document.querySelectorAll('.select-row:checked').forEach((checkbox) => {
+      selectedEmails.push(checkbox.getAttribute('data-email'));
+    });
+    if (selectedEmails.length > 0) {
+      const emailText = selectedEmails.join('\n');
+      navigator.clipboard.writeText(emailText)
+        .then(() => alert('Emails copied to clipboard!'))
+        .catch((err) => alert('Error copying emails: ' + err));
+    } else {
+      alert('No applicants selected!');
+    }
+  });
 
-      // Attach delete button listeners
-      function attachDeleteListeners() {
-        document.querySelectorAll('.delete-btn').forEach((button) => {
-          button.addEventListener('click', (e) => {
-            const applicantId = e.target.getAttribute('data-id');
-            fetch(`/hr/delete-applicant/${applicantId}`, {
-              method: 'DELETE',
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                alert(data.message);
-                e.target.closest('tr').remove();
-              })
-              .catch((err) => alert('Error deleting applicant: ' + err));
-          });
-        });
-      }
-
-      attachDeleteListeners(); // initial call
-
-      // Filter form submit
-      filterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const role = document.getElementById('role-filter').value;
-        const queryParams = new URLSearchParams();
-        if (role) queryParams.append('role', role);
-
-        fetch(`/hr/filter-applicants?${queryParams.toString()}`)
+  // Attach delete button listeners
+  function attachDeleteListeners() {
+    document.querySelectorAll('.delete-btn').forEach((button) => {
+      button.addEventListener('click', (e) => {
+        const applicantId = e.target.getAttribute('data-id');
+        fetch(`/delete-applicant/${applicantId}`, {
+          method: 'DELETE',
+        })
           .then((response) => response.json())
           .then((data) => {
-            const tableBody = document.querySelector('tbody');
-            tableBody.innerHTML = '';
-            data.applicants.forEach((applicant, index) => {
-              const row = `
-                <tr>
-                  <td><input type="checkbox" class="select-row" data-email="${applicant.email}"></td>
-                  <td>${index + 1}</td>
-                  <td>${applicant.name}</td>
-                  <td>${applicant.email}</td>
-                  <td>${applicant.phone}</td>
-                  <td>${applicant.address}</td>
-                  <td>${applicant.role}</td>
-                  <td><a href="/uploads/${applicant.resume}" download class="download-link">Download</a></td>
-                  <td>${new Date(applicant.submitted_at).toLocaleString()}</td>
-                  <td><button class="delete-btn" data-id="${applicant.id}">Delete</button></td>
-                </tr>
-              `;
-              tableBody.insertAdjacentHTML('beforeend', row);
-            });
-
-            attachDeleteListeners(); // Re-attach after table refresh
+            alert(data.message);
+            e.target.closest('tr').remove();
           })
-          .catch((err) => alert('Error fetching filtered applicants: ' + err));
+          .catch((err) => alert('Error deleting applicant: ' + err));
       });
     });
+  }
+
+  attachDeleteListeners(); // initial call
+
+  // Role filter
+  roleFilter.addEventListener('change', () => {
+    const selectedRole = roleFilter.value;
+    if (selectedRole) {
+      departmentFilter.disabled = true;
+      filterTable('role', selectedRole);
+    } else {
+      departmentFilter.disabled = false;
+      showAllRows();
+    }
+  });
+
+  // Department filter
+  departmentFilter.addEventListener('change', () => {
+    const selectedDepartment = departmentFilter.value;
+    if (selectedDepartment) {
+      roleFilter.disabled = true;
+      filterTable('department', selectedDepartment);
+    } else {
+      roleFilter.disabled = false;
+      showAllRows();
+    }
+  });
+
+  function filterTable(type, value) {
+    allRows.forEach(row => {
+      const cell = type === 'role' ? row.cells[6] : row.cells[9]; // Role is 7th column (index 6), Department is 10th (index 9)
+      const cellText = cell.textContent.trim();
+      if (cellText === value || value === '') {
+        row.style.display = '';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  }
+
+  function showAllRows() {
+    allRows.forEach(row => row.style.display = '');
+  }
+});
   </script>
 
 </body>

@@ -47,7 +47,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/hr", loginRouter);
+app.use("/", loginRouter);
 
 app.use("/", resumeRoute);
 app.use("/", loginSignup);
@@ -373,6 +373,23 @@ app.post("/post-job", async (req, res) => {
     }
 });
 
+app.get("/manage-jobs", (req,res)=>{
+  res.render("manage-jobs.ejs", { jobs: jobs });
+});
+
+app.get("/deletejob", async(req, res) => {
+  const jobId = req.query.id;
+  // Logic to delete the job from the database
+
+  try {
+      const query = `DELETE FROM jobs WHERE id = $1`;
+      await db.query(query, [jobId]);
+      res.send(`Job with ID ${jobId} deleted`);
+  } catch (err) {
+      console.error("DB Error:", err.message);
+      res.status(500).send("Error deleting job from database.");
+  }
+});
 
 app.get("/delete", async(req, res) => {
   const filename=req.query.filename;

@@ -3,7 +3,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f6f9;
   margin: 0;
-  padding: 20px;
 }
 
 h1 {
@@ -14,9 +13,8 @@ h1 {
 
 .table-container {
   width: 90%;
-  margin: auto;
   background: #ffffff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   overflow-x: auto;

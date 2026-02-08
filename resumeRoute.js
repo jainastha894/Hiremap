@@ -14,7 +14,7 @@ function toInitialCase(str) {
     .join(' ');
 }
 
-router.post('/submit-resume',(req, res) => {
+router.post('/submit-resume',async(req, res) => {
   console.log("req.body: ", req.body);
   let { name, email, phone, address, role, resume } = req.body;
 
@@ -27,12 +27,15 @@ role = role.trim();// keep as is, just clean spaces
 phone = phone.trim(); // keep as is, just clean spaces
 address = address.trim();
 
+const departmentResult = await db.query(`SELECT department FROM jobs WHERE role = $1`, [role]);
+const department = departmentResult.rows[0]?.department;
+
 const query = `
-  INSERT INTO applicants (name, email, role, phone, address, resume, submitted_at,user_id)
-  VALUES ($1, $2, $3, $4, $5, $6, NOW(),($7))
+  INSERT INTO applicants (name, email, role, phone, address, resume, submitted_at,user_id, department)
+  VALUES ($1, $2, $3, $4, $5, $6, NOW(),($7),$8)
 `;
 
-db.query(query, [name, email, role, phone, address, resume,userId]);
+db.query(query, [name, email, role, phone, address, resume,userId, department]);
 
     res.send('Resume submitted successfully!');
   });
