@@ -1,10 +1,19 @@
 <head>
   <title><%= title || "HireMap Careers" %></title>
-  <meta name="description" content="<%= description || '' %>">
+  <meta name="description" content="<%= description || 'Apply for exciting tech jobs at HireMap. Discover career opportunities in software engineering, remote tech jobs, and innovative tech careers.' %>">
+  <meta name="keywords" content="hiremap, tech jobs, <%= job.job_name %>, software engineering jobs, remote tech jobs, tech hiring, career opportunities in tech, job application">
   <link rel="canonical" href="<%= canonical %>">
-  <meta property="og:title" content="<%= og?.title ||/ title %>">
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= og?.title || title %>">
   <meta property="og:description" content="<%= og?.description || description %>">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:image" content="https://hiremap.onrender.com/logo.jpeg">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= og?.title || title %>">
+  <meta name="twitter:description" content="<%= og?.description || description %>">
+  <meta name="twitter:image" content="https://hiremap.onrender.com/logo.jpeg">
 </head>
 <body>
   <!-- Job content -->
@@ -19,7 +28,7 @@
       "hiringOrganization": {
         "@type":"Organization",
         "name":"HireMap",
-        "sameAs":"https://your-domain.com"
+        "sameAs":"https://hiremap.onrender.com"
       },
       "jobLocation": {
         "@type":"Place",
